@@ -9,13 +9,14 @@ if __name__ == '__main__':
     parser.add_argument(
         "-f",
         dest="backlog",
-        help="Specify a projects file.",
-        default="backlog.json"
+        help="Specify a backlog.",
+        default="etc/backlog.json"
     )
     args = parser.parse_args()
     with open(args.backlog, 'r') as f:
         backlog = json.load(f)
     selection = []
     for entry in backlog:
-        selection += [entry["note"]]*entry['priority']
+        assert entry["priority"] > 0
+        selection += [entry["note"]]*entry["priority"]
     print random.choice(selection)
