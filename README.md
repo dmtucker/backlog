@@ -15,7 +15,10 @@ A backlog file is a basic JSON file with the following format:
         "note": "Describe a backlog entry here.",
         "priority": 1
     },
-    ...
+    {
+        "note": "Describe a more likely backlog entry here.",
+        "priority": 5
+    }
 ]
 ```
 * Note: Priorities must be positive.
