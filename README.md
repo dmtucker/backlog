@@ -19,4 +19,4 @@ A backlog file is a basic JSON file with the following format:
     }
 ]
 ```
-* Note: Priorities must be positive.
+* Note: Priorities must be positive integers.
