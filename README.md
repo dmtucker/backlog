@@ -1,11 +1,14 @@
 I use this tool to choose what to work on during my "personal projects" hour everyday.
 
 ```
-usage: backlog.py [-h] [-f BACKLOG]
+usage: backlog.py [-h] [-f BACKLOG] [-o HISTORY]
 
 optional arguments:
-  -h, --help  show this help message and exit
-  -f BACKLOG  Specify a backlog.
+  -h, --help            show this help message and exit
+  -f BACKLOG, --backlog-file BACKLOG
+                        Specify a backlog file.
+  -o HISTORY, --history-file HISTORY
+                        Specify a history file.
 ```
 
 A backlog file is a basic JSON file with the following format:
