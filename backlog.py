@@ -2,9 +2,11 @@
 
 import argparse
 import json
+import logging
 import random
 
-if __name__ == '__main__':
+
+def parse_cli():
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "-f",
@@ -12,11 +14,34 @@ if __name__ == '__main__':
         help="Specify a backlog.",
         default="etc/backlog.json"
     )
-    args = parser.parse_args()
-    with open(args.backlog, 'r') as f:
-        backlog = json.load(f)
+    return parser.parse_args()
+
+
+def configure_logging(path):
+    lfh = logging.FileHandler(path)
+    x = lfh.setFormatter(logging.Formatter("%(asctime)s %(message)s"))
+    logger = logging.getLogger(__name__)
+    logger.addHandler(lfh)
+    logger.setLevel(logging.INFO)
+    return logger
+
+
+def json_file_to_dict(path):
+    with open(path, 'r') as f:
+        return json.load(f)
+
+
+if __name__ == "__main__":
+
+    args = parse_cli()
+    logger = configure_logging("backlog.log")  # TODO
+    backlog = json_file_to_dict(args.backlog)
+    
     selection = []
     for entry in backlog:
         assert entry["priority"] > 0
         selection += [entry["note"]]*entry["priority"]
-    print random.choice(selection)
+    selected = random.choice(selection)
+
+    logger.info(selected)
+    print(selected)
