@@ -1,5 +1,3 @@
-I use this tool to choose what to work on during my "personal projects" hour everyday.
-
 ```
 usage: backlog.py [-h] [-f BACKLOG] [-o HISTORY]
 
@@ -24,4 +22,4 @@ A backlog file is a basic JSON file with the following format:
     }
 ]
 ```
-* Note: Priorities must be positive.
+* Note: Priorities must be positive integers.
