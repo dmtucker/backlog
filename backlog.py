@@ -37,17 +37,26 @@ def json_file_to_dict(path):
         return json.load(f)
 
 
-if __name__ == "__main__":
+class Backlog:
 
+    entries = None
+
+    def __init__(entries=None):
+        self.entries = entries
+
+    def random_entry():
+        selection = []
+        for entry in self.entries:
+            assert entry["priority"] > 0, "Priorities must be positive."
+            assert entry["priority"] == int(entry["priority"]), "Priorities must be integers."
+            selection += [entry["note"]]*entry["priority"]
+        return random.choice(selection)
+
+
+if __name__ == "__main__":
     args = parse_cli()
     logger = configure_logging(args.history)
-    backlog = json_file_to_dict(args.backlog)
-    
-    selection = []
-    for entry in backlog:
-        assert entry["priority"] > 0
-        selection += [entry["note"]]*entry["priority"]
-    selected = random.choice(selection)
-
-    logger.info(selected)
-    print(selected)
+    backlog = Backlog(entries=json_file_to_dict(args.backlog))
+    entry = backlog.random_entry()
+    logger.info(entry)
+    print(entry)
