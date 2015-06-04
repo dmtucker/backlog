@@ -41,10 +41,10 @@ class Backlog:
 
     entries = None
 
-    def __init__(entries=None):
+    def __init__(self, entries=None):
         self.entries = entries
 
-    def random_entry():
+    def random_entry(self):
         selection = []
         for entry in self.entries:
             assert entry["priority"] > 0, "Priorities must be positive."
