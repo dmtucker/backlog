@@ -42,15 +42,25 @@ class Backlog:
     entries = None
 
     def __init__(self, entries=None):
+        for entry in entries:
+            assert entry["priority"] == int(entry["priority"]), "Priorities must be integers."
         self.entries = entries
 
     def random_entry(self):
+        if self.entries is None or len(self.entries) == 0:
+            return None
         selection = []
+        priority_shift = 1-self.lowest_priority()["priority"]
         for entry in self.entries:
-            assert entry["priority"] > 0, "Priorities must be positive."
-            assert entry["priority"] == int(entry["priority"]), "Priorities must be integers."
-            selection += [entry["note"]]*entry["priority"]
+            selection.extend([entry["note"]]*(entry["priority"]+priority_shift))
         return random.choice(selection)
+
+    def lowest_priority(self):
+        lowest = None
+        for entry in self.entries:
+            if lowest is None or entry["priority"] < lowest["priority"]:
+                lowest = entry
+        return lowest
 
 
 if __name__ == "__main__":
