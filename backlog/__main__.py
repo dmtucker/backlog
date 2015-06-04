@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
 import argparse
-import json
 import logging
 from backlog import Backlog
 
@@ -36,11 +35,6 @@ def configure_logging(path):
     logger.addHandler(lfh)
     logger.setLevel(logging.INFO)
     return logger
-
-
-def json_to_python(path):
-    with open(path, 'r') as f:
-        return json.load(f)
 
 
 def main():

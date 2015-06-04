@@ -1,4 +1,10 @@
+import json
 import random
+
+
+def json_to_python(path):
+    with open(path, 'r') as f:
+        return json.load(f)
 
 
 class Backlog:
