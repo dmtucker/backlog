@@ -20,6 +20,12 @@ def parse_cli():
         help="Specify a history file.",
         default="backlog.log"
     )
+    parser.add_argument(
+        "-t", "--tag", nargs=1,
+        dest="tags",
+        help="Specify one or more entry tags.",
+        action="append"
+    )
     return parser.parse_args()
 
 
@@ -57,14 +63,16 @@ class Backlog:
                 )
         return self
 
-    def random_entry(self):
+    def random_entry(self, tags=None):
         if self.entries is None or len(self.entries) < 1:
             return None
         selection = []
         priority_shift = 1-self.lowest_priority_entry().priority
-        for entry in self.entries:
-            selection.extend([entry.note]*(entry.priority+priority_shift))
-        return random.choice(selection)
+        for i in range(len(self.entries)):
+            entry = self.entries[i]
+            if tags is None or entry.has_any_of(tags=tags):
+                selection.extend([i]*(entry.priority+priority_shift))
+        return self.entries[random.choice(selection)] if len(selection) > 0 else None
 
     def highest_priority_entry(self):
         highest = None
@@ -91,11 +99,20 @@ class Backlog:
             self.priority = int(priority)
             self.tags = tuple(tags)
 
+        def has_any_of(self, tags):
+            for tag in tags:
+                if tag in self.tags:
+                    return True
+            return False
+
 
 if __name__ == "__main__":
     args = parse_cli()
     logger = configure_logging(args.history)
     backlog = Backlog().loaded_from(json_file=args.backlog)
-    entry = backlog.random_entry()
-    logger.info(entry)
-    print(entry)
+    entry = backlog.random_entry(tags=args.tags)
+    if entry is None:
+        print("No entries found")
+    else:
+        logger.info(entry.note)
+        print(entry.note)
