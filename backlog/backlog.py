@@ -1,11 +1,9 @@
-#!/usr/bin/env python
-
 import random
 
 
 class Backlog:
 
-    entries = None
+    entries = []
 
     def __init__(self, entries=None):
         self.entries = entries
