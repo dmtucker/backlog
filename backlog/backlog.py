@@ -20,6 +20,7 @@ class Backlog:
             for entry in json_to_python(json_file):
                 self.entries.append(
                     Backlog.Entry(
+                        title=entry["title"],
                         note=entry["note"],
                         priority=entry.get("priority", 1),
                         tags=entry.get("tags", ())
@@ -56,12 +57,22 @@ class Backlog:
 
         note = None
         priority = 1
+        title = None
         tags = ()
 
-        def __init__(self, note, priority=1, tags=()):
+        def __init__(self, title, note=None, priority=1, tags=()):
+            self.title = str(title)
             self.note = str(note)
             self.priority = int(priority)
             self.tags = tuple(tags)
+
+        def __repr__(self):
+            this = {}
+            this["title"] = self.title
+            this["note"] = self.note
+            this["priority"] = self.priority
+            this["tags"] = self.tags
+            return json.dumps(this, sort_keys=True, indent=2, separators=(',', ': '))
 
         def has_any_of(self, tags):
             for tag in tags:

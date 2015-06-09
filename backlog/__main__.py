@@ -2,6 +2,7 @@
 
 import argparse
 import logging
+from pprint import pprint
 from backlog import Backlog
 
 
@@ -45,8 +46,8 @@ def main():
     if entry is None:
         print("No entries found")
     else:
-        logger.info(entry.note)
-        print(entry.note)
+        logger.info(entry)
+        pprint(entry)
 
 
 if __name__ == "__main__":

@@ -1,3 +1,4 @@
+import json
 import logging
 import random
 import unittest
@@ -12,23 +13,23 @@ class BacklogTest (unittest.TestCase):
         self.backlog = Backlog(
             entries=[
                 Backlog.Entry(
-                    note="test-1",
+                    title="test-1",
                     priority=-100
                 ),
                 Backlog.Entry(
-                    note="test-2",
+                    title="test-2",
                     priority=0
                 ),
                 Backlog.Entry(
-                    note="test-3",
+                    title="test-3",
                     priority=1
                 ),
                 Backlog.Entry(
-                    note="test-4",
+                    title="test-4",
                     priority=2
                 ),
                 Backlog.Entry(
-                    note="test-5",
+                    title="test-5",
                     priority=100
                 )
             ]
@@ -36,10 +37,10 @@ class BacklogTest (unittest.TestCase):
         random.shuffle(self.backlog.entries)
 
     def test_highest_priority_entry(self):
-        self.assertEqual(self.backlog.highest_priority_entry().note, "test-5")
+        self.assertEqual(self.backlog.highest_priority_entry().title, "test-5")
 
     def test_lowest_priority_entry(self):
-        self.assertEqual(self.backlog.lowest_priority_entry().note, "test-1")
+        self.assertEqual(self.backlog.lowest_priority_entry().title, "test-1")
 
 
 class BacklogEntryTest (unittest.TestCase):
@@ -52,7 +53,7 @@ class BacklogEntryTest (unittest.TestCase):
         ]
         random.shuffle(tags)
         self.entry = Backlog.Entry(
-            note="test-entry",
+            title="test-entry",
             priority="5",
             tags=tags
         )
@@ -63,3 +64,6 @@ class BacklogEntryTest (unittest.TestCase):
         self.assertTrue(self.entry.has_any_of(("kiwi", "pineapple")))
         self.assertTrue(self.entry.has_any_of(("strawberry", "banana")))
         self.assertTrue(self.entry.has_any_of(("apple", "kiwi")))
+
+    def test___repr__(self):
+        json.loads(str(self.entry))
