@@ -1,4 +1,4 @@
-Backlog is a glorified TODO list.
+Backlog is basically a glorified TODO list.
 
 ![Build Status](https://codeship.com/projects/3c3bac90-ecbc-0132-3f37-1232bdb5f33c/status?branch=master)
 
@@ -19,26 +19,31 @@ A backlog file is a basic JSON file with the following format:
 ``` json
 [
     {
-        "note": "Describe a backlog entry here.",
+        "title": "Titles are always required.",
+        "note": "All other attributes are optional.",
         "priority": 1,
-        "tags": [
-            "tag1"
-        ]
-    },
-    {
-        "note": "Describe a more likely backlog entry here.",
-        "priority": 5,
         "tags": [
             "tag1",
             "tag2"
         ]
     },
     {
-        "note": "Describe a most likely backlog entry here.",
-        "priority": 10,
+        "title": "Foo",
+        "note": "This entry is unlikely to be selected because the priority is relatively low.",
+        "priority": -5,
         "tags": [
-            "tag2"
+            "tag1"
+        ]
+    },
+    {
+        "title": "Bar",
+        "priority": 9000,
+        "tags": [
+            "tag2",
+            "#turndownforwhat"
         ]
     }
 ]
 ```
+
+Under the hood, there is no such thing as a duplicate entry.
