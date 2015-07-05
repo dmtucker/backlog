@@ -25,7 +25,7 @@ class Backlog(list):
     def __repr__(self):
         entries = []
         for entry in self:
-            entries.append(str(entry))
+            entries.append(entry.summary())
         return '\n'.join(entries)
 
 
@@ -87,9 +87,22 @@ class Backlog(list):
             self['priority'] = int(self.get('priority', 1))
             self['note'] = str(self.get('note', ''))
             self['title'] = str(self.get('title', random.randint(0, 1000000)))
-                
 
         def __repr__(self):
+            return '\n'.join(
+                [
+                    self['title'],
+                    'priority: {}'.format(self['priority']),
+                    self['note']
+                ]
+            )
+
+        def from_dict(self, d):
+            for k, v in d.items():
+                self[k] = v
+            return self
+
+        def summary(self):
             return \
                 '{title:24}{separator}{priority:8}{separator}{note:44}'.format(
                     separator=(' '*2),
@@ -97,8 +110,3 @@ class Backlog(list):
                     priority=min(self['priority'], 99999999),
                     note=self['note'][:44]
                 )
-
-        def from_dict(self, d):
-            for k, v in d.items():
-                self[k] = v
-            return self
