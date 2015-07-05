@@ -1,5 +1,6 @@
 import json
 import random
+import re
 
 
 def json_to_python(path):
@@ -7,75 +8,74 @@ def json_to_python(path):
         return json.load(f)
 
 
-class Backlog:
+class Backlog(list):
 
-    entries = []
 
-    def __init__(self, entries=None):
-        self.entries = entries
+    def __init__(self, *args, **kwargs):
+        super(Backlog, self).__init__(*args, **kwargs)
 
-    def loaded_from(self, json_file=None):
-        self.entries = []
-        if json_file is not None:
-            for entry in json_to_python(json_file):
-                self.entries.append(
-                    Backlog.Entry(
-                        title=entry["title"],
-                        note=entry["note"],
-                        priority=entry.get("priority", 1),
-                        tags=entry.get("tags", ())
-                    )
-                )
+
+    def __repr__(self):
+        entries = []
+        for entry in self:
+            entries.append(str(entry))
+        return '\n'.join(entries)
+
+
+    def load(self, db='backlog.json'):
+        with open(db, 'r') as f:
+            entries = json.load(f)
+        for entry in entries:
+            self.append(Backlog.Entry().from_dict(entry))
         return self
 
-    def random_entry(self, tags=None):
-        if self.entries is None or len(self.entries) < 1:
-            return None
+
+    def save(self, db='backlog.json'):
+        with open(db, 'w') as f:
+            f.write(
+                json.dumps(
+                    self,
+                    sort_keys=True,
+                    indent=2,
+                    separators=(',', ': ')
+                )
+            )
+        return self
+
+
+    def search(self, pattern, invert=False):
+        backlog = Backlog()
+        for entry in self:
+            if (re.search(pattern, entry['title']) is None) == invert:
+                backlog.append(entry)
+        return backlog
+
+
+    def random(self):  # TODO
         selection = []
         priority_shift = 1-self.lowest_priority_entry().priority
-        for i in range(len(self.entries)):
-            entry = self.entries[i]
+        for i in range(len(self)):
+            entry = self[i]
             if tags is None or entry.has_any_of(tags=tags):
                 selection.extend([i]*(entry.priority+priority_shift))
-        return self.entries[random.choice(selection)] if len(selection) > 0 else None
+        return self[random.choice(selection)] if len(selection) > 0 else None
 
-    def highest_priority_entry(self):
-        highest = None
-        for entry in self.entries:
-            if highest is None or entry.priority > highest.priority:
-                highest = entry
-        return highest
 
-    def lowest_priority_entry(self):
-        lowest = None
-        for entry in self.entries:
-            if lowest is None or entry.priority < lowest.priority:
-                lowest = entry
-        return lowest
+    class Entry(dict):
 
-    class Entry:
-
-        note = None
-        priority = 1
-        title = None
-        tags = ()
-
-        def __init__(self, title, note=None, priority=1, tags=()):
-            self.title = str(title)
-            self.note = str(note)
-            self.priority = int(priority)
-            self.tags = tuple(tags)
+        def __init__(self, *args, **kwargs):
+            super(Backlog.Entry, self).__init__(*args, **kwargs)
 
         def __repr__(self):
-            this = {}
-            this["title"] = self.title
-            this["note"] = self.note
-            this["priority"] = self.priority
-            this["tags"] = self.tags
-            return json.dumps(this, sort_keys=True, indent=2, separators=(',', ': '))
+            return \
+                '{title:24}{separator}{priority:8}{separator}{note:44}'.format(
+                    separator=(' '*2),
+                    title=self['title'][:24],
+                    priority=min(self['priority'], 99999999),
+                    note=self['note'][:44]
+                )
 
-        def has_any_of(self, tags):
-            for tag in tags:
-                if tag in self.tags:
-                    return True
-            return False
+        def from_dict(self, d):
+            for k, v in d.items():
+                self[k] = v
+            return self
