@@ -4,11 +4,12 @@ Backlog is basically a glorified git-like TODO list.
 
 ```
 $ python backlog --help
-usage: backlog [-h] [-f FILE] {add,rm,show} ...
+usage: backlog [-h] [-f FILE] {add,random,rm,show} ...
 
 positional arguments:
-  {add,rm,show}
+  {add,random,rm,show}
     add                 Add an entry to the backlog.
+    random              Select a random entry from the backlog.
     rm                  Remove entries in the backlog.
     show                Show entries in the backlog.
 
