@@ -9,7 +9,11 @@ from backlog import Backlog
 
 
 def show(args):
-    print(Backlog().load(db=args.file).search(args.pattern))
+    print(
+        Backlog()
+            .load(db=args.file)
+            .search(args.pattern)
+    )
 
 
 def add(args):
@@ -22,6 +26,10 @@ def add(args):
         )
     )
     backlog.save(db=args.file)
+
+
+def random(args):
+    print(Backlog().load(db=args.file).random())
 
 
 def rm(args):
@@ -62,6 +70,12 @@ if __name__ == "__main__":
         default=""
     )
     add_parser.set_defaults(func=add)
+
+    random_parser = subparsers.add_parser(
+        "random",
+        help="Select a random entry from the backlog."
+    )
+    random_parser.set_defaults(func=random)
 
     rm_parser = subparsers.add_parser(
         "rm",

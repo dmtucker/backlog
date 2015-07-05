@@ -1,5 +1,6 @@
 import json
 import logging
+import os
 import random
 import unittest
 from backlog import Backlog
@@ -10,60 +11,80 @@ class BacklogTest (unittest.TestCase):
     def setUp(self):
         self.log = logging.getLogger(__name__)
         self.log.debug("Initializing a BacklogTest...")
-        self.backlog = Backlog(
-            entries=[
-                Backlog.Entry(
-                    title="test-1",
-                    priority=-100
-                ),
-                Backlog.Entry(
-                    title="test-2",
-                    priority=0
-                ),
-                Backlog.Entry(
-                    title="test-3",
-                    priority=1
-                ),
-                Backlog.Entry(
-                    title="test-4",
-                    priority=2
-                ),
-                Backlog.Entry(
-                    title="test-5",
-                    priority=100
-                )
-            ]
+        self.entry = Backlog.Entry(
+            title="test-foo",
+            priority=10
         )
-        random.shuffle(self.backlog.entries)
+        self.backlog = Backlog()
+        for entry in [
+            Backlog.Entry(
+                title="test-1",
+                priority=-100
+            ),
+            Backlog.Entry(
+                title="test-2",
+                priority=0
+            ),
+            Backlog.Entry(
+                title="test-3",
+                priority=1
+            ),
+            Backlog.Entry(
+                title="test-4",
+                priority=2
+            ),
+            Backlog.Entry(
+                title="test-5",
+                priority=100
+            ),
+            self.entry
+        ]:
+            self.backlog.append(entry)
+        random.shuffle(self.backlog)
 
-    def test_highest_priority_entry(self):
-        self.assertEqual(self.backlog.highest_priority_entry().title, "test-5")
+    def test_contains(self):
+        self.assertTrue(self.backlog.contains(self.entry))
+        self.assertFalse(self.backlog.contains(Backlog.Entry(title='dummy')))
 
-    def test_lowest_priority_entry(self):
-        self.assertEqual(self.backlog.lowest_priority_entry().title, "test-1")
+    def test_search(self):
+        backlog = Backlog()
+        backlog.append(self.entry)
+        self.assertEqual(backlog, self.backlog.search("foo$"))
+
+    def test_search_invert(self):
+        backlog = Backlog()
+        backlog.append(self.entry)
+        self.assertEqual(backlog, self.backlog.search("^test-\d$", invert=True))
+
+    def test_save_load(self):
+        self.backlog.save(db="test.backlog.json")
+        backlog = Backlog().load(db="test.backlog.json")
+        self.assertEqual(backlog, self.backlog)
+
+    def tearDown(self):
+        try:
+            os.remove("test.backlog.json")
+        except OSError:
+            pass
 
 
 class BacklogEntryTest (unittest.TestCase):
 
     def setUp(self):
-        tags = [
-            "apple",
-            "banana",
-            "kiwi",
-        ]
-        random.shuffle(tags)
+        self.log = logging.getLogger(__name__)
+        self.log.debug("Initializing a BacklogEntryTest...")
         self.entry = Backlog.Entry(
             title="test-entry",
-            priority="5",
-            tags=tags
+            priority=5
         )
 
-    def test_has_any_of(self):
-        self.assertFalse(self.entry.has_any_of(("blackberry",)))
-        self.assertFalse(self.entry.has_any_of(("grape", "blueberry")))
-        self.assertTrue(self.entry.has_any_of(("kiwi", "pineapple")))
-        self.assertTrue(self.entry.has_any_of(("strawberry", "banana")))
-        self.assertTrue(self.entry.has_any_of(("apple", "kiwi")))
-
-    def test___repr__(self):
-        json.loads(str(self.entry))
+    def test_from_dict(self):
+        self.assertEqual(
+            self.entry,
+            Backlog.Entry().from_dict(
+                {
+                    "title": "test-entry",
+                    "priority": 5
+                }
+            )
+        )

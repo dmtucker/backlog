@@ -11,6 +11,13 @@ def json_to_python(path):
 class Backlog(list):
 
 
+    def __eq__(this, that):
+        for entry in that:
+            if not this.contains(entry):
+                return False
+        return True
+
+
     def __init__(self, *args, **kwargs):
         super(Backlog, self).__init__(*args, **kwargs)
 
@@ -43,6 +50,13 @@ class Backlog(list):
         return self
 
 
+    def contains(self, entry):
+        for e in self:
+            if e == entry:
+                return True
+        return False
+
+
     def search(self, pattern, invert=False):
         backlog = Backlog()
         for entry in self:
@@ -51,20 +65,29 @@ class Backlog(list):
         return backlog
 
 
-    def random(self):  # TODO
+    def random(self):
         selection = []
-        priority_shift = 1-self.lowest_priority_entry().priority
         for i in range(len(self)):
             entry = self[i]
-            if tags is None or entry.has_any_of(tags=tags):
-                selection.extend([i]*(entry.priority+priority_shift))
+            selection.extend([i]*entry['priority'])
         return self[random.choice(selection)] if len(selection) > 0 else None
 
 
     class Entry(dict):
 
+        def __eq__(this, that):
+            return (
+                int(this['priority']) == int(that['priority']) and
+                str(this['note'])     == str(that['note'])     and
+                str(this['title'])    == str(that['title'])
+            )
+
         def __init__(self, *args, **kwargs):
             super(Backlog.Entry, self).__init__(*args, **kwargs)
+            self['priority'] = int(self.get('priority', 1))
+            self['note'] = str(self.get('note', ''))
+            self['title'] = str(self.get('title', random.randint(0, 1000000)))
+                
 
         def __repr__(self):
             return \
