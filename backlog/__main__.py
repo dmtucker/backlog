@@ -9,11 +9,9 @@ from backlog import Backlog
 
 
 def show(args):
-    print(
-        Backlog()
-            .load(db=args.file)
-            .search(args.pattern)
-    )
+    results = Backlog().load(db=args.file).search(args.pattern)
+    if len(results) > 0:
+        print(results if len(results) > 1 else results[0])
 
 
 def add(args):
