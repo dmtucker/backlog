@@ -8,10 +8,15 @@ from pprint import pprint
 from backlog import Backlog
 
 
+def print_backlog(backlog):
+    if len(backlog) > 0:
+        print(backlog if len(backlog) > 1 else backlog[0])
+
+
 def show(args):
-    results = Backlog().load(db=args.file).search(args.pattern)
-    if len(results) > 0:
-        print(results if len(results) > 1 else results[0])
+    backlog = Backlog().load(db=args.file).search(args.pattern)
+    print('total {}'.format(len(backlog)))
+    print_backlog(backlog)
 
 
 def add(args):
@@ -31,12 +36,11 @@ def random(args):
 
 
 def rm(args):
-    (
-        Backlog()
-            .load(db=args.file)
-            .search(args.pattern, invert=True)
-            .save(db=args.file)
-    )
+    backlog = Backlog().load(db=args.file)
+    results = backlog.search(args.pattern)
+    print_backlog(results)
+    if raw_input("delete {} entries? ".format(len(results))).lower().startswith("y"):
+        backlog.search(args.pattern, invert=True).save(db=args.file)
 
 
 if __name__ == "__main__":
