@@ -49,7 +49,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "-f", "--file",
         help="Specify a backlog file.",
-        default="backlog.json"
+        default=".backlog.json"
     )
     subparsers = parser.add_subparsers()
     
