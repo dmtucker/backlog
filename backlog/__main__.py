@@ -59,8 +59,8 @@ def cli(parser=argparse.ArgumentParser(prog="backlog")):
     parser.add_argument(
         "-f", "--file",
         help="Specify a backlog file.",
-        default=".backlog.json"
-    )
+        default=os.path.join(os.path.expanduser("~"), ".backlog.json"),
+        )
     subparsers = parser.add_subparsers()
 
     add_parser = subparsers.add_parser(
