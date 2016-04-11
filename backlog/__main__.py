@@ -9,6 +9,7 @@ from __future__ import print_function
 import argparse
 import os
 
+from backlog import __version__
 from backlog import Backlog
 
 
@@ -45,6 +46,11 @@ def remove(args):
     answer = raw_input("delete {0} entries? ".format(len(results)))
     if answer.lower().startswith("y"):
         backlog.search(args.pattern, invert=True).save(args.file)
+
+
+def version(args): # pylint: disable=unused-argument
+    """Print the version."""
+    print('Backlog v{0}'.format(__version__))
 
 
 def cli(parser=argparse.ArgumentParser(prog="backlog")):
@@ -103,6 +109,12 @@ def cli(parser=argparse.ArgumentParser(prog="backlog")):
         default=".*",
         )
     show_parser.set_defaults(func=show)
+
+    show_parser = subparsers.add_parser(
+        "version",
+        help=version.__doc__,
+        )
+    show_parser.set_defaults(func=version)
 
     return parser
 
