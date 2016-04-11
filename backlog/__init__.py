@@ -1,3 +1,6 @@
-from backlog import Backlog
+"""A Simple Note Manager"""
 
-__version__ = "0.0"
+from __future__ import absolute_import
+from backlog.backlog import Backlog
+
+__version__ = '0.1.0'
