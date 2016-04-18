@@ -3,34 +3,31 @@ Backlog
 
 Backlog is basically a glorified TODO list.
 
-[![Build
-Status](https://img.shields.io/codeship/3c3bac90-ecbc-0132-3f37-1232bdb5f33c/master.svg)](https://codeship.com/projects/83804)
-[![PyPI
-Version](https://img.shields.io/pypi/v/backlog.svg)](https://pypi.python.org/pypi/backlog)
+|Build Status| |PyPI Version|
 
 Installation
 ------------
 
-Backlog is available on [PyPI](https://pypi.python.org/pypi/backlog).
+Backlog is available on `PyPI <https://pypi.python.org/pypi/backlog>`__.
 
-``` {.sh}
-pip install backlog
-```
+.. code:: sh
+
+    pip install backlog
 
 Usage
 -----
 
 Backlog can be run as a command-line utility.
 
-``` {.sh}
-backlog --help
-```
+.. code:: sh
+
+    backlog --help
 
 Backlog can also be imported into other Python projects.
 
-``` {.python}
-from backlog import Backlog
-```
+.. code:: python
+
+    from backlog import Backlog
 
 License
 -------
@@ -50,3 +47,8 @@ General Public License for more details.
 You should have received a copy of the GNU Lesser General Public License
 along with this library; if not, write to the Free Software Foundation,
 Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+
+.. |Build Status| image:: https://img.shields.io/codeship/3c3bac90-ecbc-0132-3f37-1232bdb5f33c/master.svg
+   :target: https://codeship.com/projects/83804
+.. |PyPI Version| image:: https://img.shields.io/pypi/v/backlog.svg
+   :target: https://pypi.python.org/pypi/backlog
