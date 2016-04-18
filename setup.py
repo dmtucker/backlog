@@ -10,7 +10,7 @@ https://github.com/pypa/sampleproject
 from setuptools import setup, find_packages
 import backlog
 
-with open('README.md') as readme_file:
+with open('README.rst') as readme_file:
     README = readme_file.read()
 
 setup(
