@@ -10,11 +10,15 @@ https://github.com/pypa/sampleproject
 from setuptools import setup, find_packages
 import backlog
 
+with open('README.md') as readme_file:
+    README = readme_file.read()
+
 setup(
     name='backlog',
     version=backlog.__version__,
     description=backlog.__doc__,
-    license='GPL',
+    long_description=README,
+    license='LGPLv2+',
     url='https://github.com/dmtucker/backlog',
     author='David Tucker',
     author_email='david.michael.tucker@gmail.com',
