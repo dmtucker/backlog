@@ -48,7 +48,7 @@ def remove(args):
         backlog.search(args.pattern, invert=True).save(args.file)
 
 
-def version(args): # pylint: disable=unused-argument
+def version(args):  # pylint: disable=unused-argument
     """Print the version."""
     print('Backlog v{0}'.format(__version__))
 

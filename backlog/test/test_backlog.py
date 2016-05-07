@@ -39,7 +39,7 @@ class BacklogTest(unittest.TestCase):
                     priority=100,
                     ),
                 self.entry,
-            ]:
+        ]:
             self.backlog.append(entry)
         random.shuffle(self.backlog)
 

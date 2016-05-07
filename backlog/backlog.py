@@ -66,7 +66,7 @@ class Backlog(list):
             selection.extend([i]*entry.priority)
         return self[random.choice(selection)] if len(selection) > 0 else None
 
-    class Entry(object): # pylint: disable=too-few-public-methods
+    class Entry(object):  # pylint: disable=too-few-public-methods
 
         """A Prioritized Note"""
 
