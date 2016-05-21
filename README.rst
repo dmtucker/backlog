@@ -48,7 +48,7 @@ You should have received a copy of the GNU Lesser General Public License
 along with this library; if not, write to the Free Software Foundation,
 Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 
-.. |Build Status| image:: https://img.shields.io/codeship/3c3bac90-ecbc-0132-3f37-1232bdb5f33c/master.svg
-   :target: https://codeship.com/projects/83804
+.. |Build Status| image:: https://img.shields.io/travis/dmtucker/backlog.svg
+   :target: https://travis-ci.org/dmtucker/backlog
 .. |PyPI Version| image:: https://img.shields.io/pypi/v/backlog.svg
    :target: https://pypi.python.org/pypi/backlog
