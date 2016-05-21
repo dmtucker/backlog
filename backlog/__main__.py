@@ -2,10 +2,6 @@
 
 """Backlog Interface"""
 
-
-from __future__ import absolute_import
-from __future__ import print_function
-
 import argparse
 import os
 
@@ -43,7 +39,7 @@ def remove(args):
     backlog = Backlog().load(args.file)
     results = backlog.search(args.pattern)
     print(results)
-    answer = raw_input("delete {0} entries? ".format(len(results)))
+    answer = input("delete {0} entries? ".format(len(results)))
     if answer.lower().startswith("y"):
         backlog.search(args.pattern, invert=True).save(args.file)
 

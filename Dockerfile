@@ -1,4 +1,4 @@
-FROM python:2
+FROM python:3
 MAINTAINER david.michael.tucker@gmail.com
 
 RUN pip install --upgrade pip

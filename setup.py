@@ -8,7 +8,6 @@ https://packaging.python.org/en/latest/distributing.html
 https://github.com/pypa/sampleproject
 """
 
-from __future__ import absolute_import
 from setuptools import setup, find_packages
 import backlog
 
