@@ -10,8 +10,6 @@ install:
   - python setup.py sdist
   - pip install ./dist/*
 script:
-  - pep8 backlog
-  - pylint backlog
+  - pep8 backlog setup.py
+  - pylint backlog setup.py
   - python -m unittest discover
-  - pep8 setup.py
-  - pylint setup.py
