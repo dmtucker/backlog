@@ -25,7 +25,8 @@ setup(
     url='https://github.com/dmtucker/backlog',
     packages=find_packages(exclude=['contrib', 'docs', 'tests']),
     include_package_data=True,
-    entry_points={'console_scripts': ['backlog=backlog.__main__:main']},
+    test_suite="backlog.test",
+    entry_points={'console_scripts': ['backlog = backlog.__main__:main']},
     keywords='notes backlog todo lists',
     classifiers=[
         'License :: OSI Approved :: '
