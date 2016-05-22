@@ -5,11 +5,11 @@ python:
   - "3.5"
 before_install:
   - pip install --upgrade pip
-  - pip install pep8 pylint
+  - pip install pep8 pylint tox
 install:
   - python setup.py sdist
   - pip install ./dist/*
 script:
+  - tox
   - pep8 backlog setup.py
   - pylint backlog setup.py
-  - python -m unittest discover
