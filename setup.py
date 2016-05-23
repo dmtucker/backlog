@@ -33,6 +33,10 @@ setup(
         'GNU Lesser General Public License v2 or later (LGPLv2+)',
         'Intended Audience :: End Users/Desktop',
         'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.2',
+        'Programming Language :: Python :: 3.3',
+        'Programming Language :: Python :: 3.4',
+        'Programming Language :: Python :: 3.5',
         'Development Status :: 4 - Beta',
     ],
 )
