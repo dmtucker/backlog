@@ -1,19 +1,11 @@
+branches:
+only:
+  - master
 language: python
 python:
   - "3.3"
   - "3.4"
   - "3.5"
-branches:
-  only:
-    - master
-before_install:
-  - pip install --upgrade pip
-  - pip install pep8 pylint tox
-install:
-  - python setup.py sdist
-  - pip install ./dist/*
-script:
-  - backlog --help
-  - tox
-  - pep8 backlog setup.py
-  - pylint backlog setup.py
+install: pip install tox-travis coveralls
+script: tox
+after_success: coveralls
