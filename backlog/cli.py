@@ -49,8 +49,14 @@ def version(args):  # pylint: disable=unused-argument
     print('Backlog v{0}'.format(__version__))
 
 
-def cli(parser=argparse.ArgumentParser(prog="backlog")):
+def cli(parser=None):
     """Parse CLI arguments and options."""
+
+    if parser is None:
+        parser = argparse.ArgumentParser(
+            prog="backlog",
+            formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+        )
 
     parser.add_argument(
         "-f", "--file",
@@ -130,3 +136,4 @@ def main(argv=None):
         with open(args.file, "a") as f:
             f.write("[]")
     args.func(args)
+    sys.exit(0)
