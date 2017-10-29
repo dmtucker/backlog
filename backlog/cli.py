@@ -2,6 +2,7 @@
 
 import argparse
 import os
+import sys
 
 from backlog import __version__
 from backlog import Backlog
@@ -113,9 +114,11 @@ def cli(parser=argparse.ArgumentParser(prog="backlog")):
     return parser
 
 
-def main():
+def main(argv=None):
     """Execute CLI commands."""
-    args = cli().parse_args()
+    if argv is None:
+        argv = sys.argv[1:]
+    args = cli().parse_args(argv)
     if not os.path.isfile(args.file):
         with open(args.file, "a") as f:
             f.write("[]")
