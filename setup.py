@@ -26,7 +26,7 @@ setup(
     packages=find_packages(exclude=['contrib', 'docs', 'tests']),
     include_package_data=True,
     test_suite="backlog.test",
-    entry_points={'console_scripts': ['backlog = backlog.__main__:main']},
+    entry_points={'console_scripts': ['backlog = backlog.cli:main']},
     keywords='notes backlog todo lists',
     classifiers=[
         'License :: OSI Approved :: '
@@ -36,6 +36,7 @@ setup(
         'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
-        'Development Status :: 4 - Beta',
+        'Programming Language :: Python :: 3.6',
+        'Development Status :: 5 - Production/Stable',
     ],
 )
