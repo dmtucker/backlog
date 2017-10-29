@@ -26,7 +26,7 @@ setup(
     packages=find_packages(exclude=['contrib', 'docs', 'tests']),
     include_package_data=True,
     test_suite="backlog.test",
-    entry_points={'console_scripts': ['backlog = backlog.__main__:main']},
+    entry_points={'console_scripts': ['backlog = backlog.cli:main']},
     keywords='notes backlog todo lists',
     classifiers=[
         'License :: OSI Approved :: '
