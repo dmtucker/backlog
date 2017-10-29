@@ -38,8 +38,9 @@ def remove(args):
     backlog = Backlog().load(args.file)
     results = backlog.search(args.pattern)
     print(results)
-    answer = input("delete {0} entries? ".format(len(results)))
-    if answer.lower().startswith("y"):
+    if args.y or input(
+            "delete {0} entries? ".format(len(results)),
+    ).lower().startswith("y"):
         backlog.search(args.pattern, invert=True).save(args.file)
 
 
@@ -87,6 +88,12 @@ def cli(parser=argparse.ArgumentParser(prog="backlog")):
     rm_parser = subparsers.add_parser(
         "rm",
         help=remove.__doc__,
+        )
+    rm_parser.add_argument(
+        "-y",
+        action='store_true',
+        help="Don't confirm before deleting.",
+        default=False,
         )
     rm_parser.add_argument(
         "pattern",
