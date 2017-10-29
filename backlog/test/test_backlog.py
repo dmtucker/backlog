@@ -43,14 +43,16 @@ class BacklogTest(unittest.TestCase):
             self.backlog.append(entry)
         random.shuffle(self.backlog)
 
-    def test_contains(self):
-        self.assertTrue(self.entry in self.backlog)
-        self.assertFalse(Backlog.Entry(title='dummy') in self.backlog)
+    def test_str(self):
+        self.assertTrue(isinstance(str(self.backlog), str))
 
     def test_search(self):
         backlog = Backlog()
         backlog.append(self.entry)
         self.assertEqual(backlog, self.backlog.search("foo$"))
+
+    def test_random(self):
+        self.assertTrue(self.backlog.random() in self.backlog)
 
     def test_search_invert(self):
         backlog = Backlog()
@@ -93,3 +95,6 @@ class BacklogEntryTest(unittest.TestCase):
 
     def test_equality_identical(self):
         self.assertEqual(self.entry, self.entry)
+
+    def test_str(self):
+        self.assertTrue(isinstance(str(self.entry), str))

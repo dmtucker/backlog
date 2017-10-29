@@ -9,18 +9,6 @@ class Backlog(list):
 
     """A Collection of Entries"""
 
-    def __contains__(self, item):
-        for entry in self:
-            if entry == item:
-                return True
-        return False
-
-    def __eq__(self, item):
-        for entry in item:
-            if entry not in self:
-                return False
-        return True
-
     def __str__(self):
         entries = []
         for entry in self:
