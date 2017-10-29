@@ -44,11 +44,6 @@ def remove(args):
         backlog.search(args.pattern, invert=True).save(args.file)
 
 
-def version(args):  # pylint: disable=unused-argument
-    """Print the version."""
-    print('Backlog v{0}'.format(__version__))
-
-
 def cli(parser=None):
     """Parse CLI arguments and options."""
 
@@ -62,6 +57,11 @@ def cli(parser=None):
         "-f", "--file",
         help="Specify a backlog file.",
         default=os.path.join(os.path.expanduser("~"), ".backlog.json"),
+        )
+    parser.add_argument(
+        '--version',
+        action='version',
+        version='%(prog)s {0}'.format(__version__),
         )
     subparsers = parser.add_subparsers()
 
@@ -117,12 +117,6 @@ def cli(parser=None):
         default=".*",
         )
     show_parser.set_defaults(func=show)
-
-    show_parser = subparsers.add_parser(
-        "version",
-        help=version.__doc__,
-        )
-    show_parser.set_defaults(func=version)
 
     return parser
 
