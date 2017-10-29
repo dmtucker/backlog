@@ -9,9 +9,6 @@ class Backlog(list):
 
     """A Collection of Entries"""
 
-    def __init__(self, *args, **kwargs):
-        super(Backlog, self).__init__(*args, **kwargs)
-
     def __contains__(self, item):
         for entry in self:
             if entry == item:
@@ -64,7 +61,7 @@ class Backlog(list):
         selection = []
         for i, entry in enumerate(self):
             selection.extend([i]*entry.priority)
-        return self[random.choice(selection)] if len(selection) > 0 else None
+        return self[random.choice(selection)] if selection else None
 
     class Entry(object):  # pylint: disable=too-few-public-methods
 
@@ -91,9 +88,8 @@ class Backlog(list):
                         priority=min(self.priority, 99999999),
                         note=self.note[:44]
                     )
-            else:
-                return '\n'.join([
-                    self.title,
-                    'priority: {}'.format(self.priority),
-                    self.note,
-                    ])
+            return '\n'.join([
+                self.title,
+                'priority: {}'.format(self.priority),
+                self.note,
+            ])
