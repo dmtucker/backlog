@@ -42,7 +42,7 @@ setuptools.setup(
     description='A Glorified TODO list',
     long_description=read('README.rst'),
     author='David Tucker',
-    author_email='david.michael.tucker@gmail.com',
+    author_email='david@tucker.name',
     license='LGPLv2+',
     url='https://github.com/dmtucker/backlog',
     package_dir={'': 'src'},
