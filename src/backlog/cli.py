@@ -7,6 +7,12 @@ import sys
 import backlog
 
 
+def default(args):
+    """If no subcommands are passed, call show() with the default pattern."""
+    args.pattern = cli().get_default('--pattern')
+    show(args)
+
+
 def show(args):
     """Show entries in the backlog."""
     entries = backlog.Backlog().load(args.file).search(args.pattern)
@@ -60,6 +66,7 @@ def cli(parser=None):
         action='version',
         version='%(prog)s {0}'.format(backlog.__version__),
     )
+    parser.set_defaults(func=default)
 
     subparsers = parser.add_subparsers()
 
