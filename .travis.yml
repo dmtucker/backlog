@@ -1,11 +1,19 @@
-branches:
-only:
-  - master
 language: python
 python:
-  - "3.4"
-  - "3.5"
-  - "3.6"
+- '3.4'
+- '3.5'
+- '3.6'
+- '3.6-dev'
+branches:
+  only:
+  - master
 install: pip install tox-travis coveralls
 script: tox
 after_success: coveralls
+deploy:
+  provider: pypi
+  user: dmtucker
+  password:
+    secure: n35Ze6Mj+lAQxTFVpdCN0wNz7HLddqKWHLzjZO6Z8a46Y1a3PYMNX7XRA+Qb+P1zz38a27N+oQ8IlyRVXBFya/Z5VRbb2gX1evClNAan1lljyT8d7vu7VYTzeuX/ewM8VMt60HEGvpWvF88OpUycTJ1OxY9wMWtL44O8bUxWr2dmrZFLXlYQ6MfLnDDUdp5+UMD5462dPG91TkOFRDVW8VASieJ0pV1nlCvdTgo5UVH8mP4AckNgfuu6P7wWQAJBeo6La1uxqg0nj1OFsyhBMGNg+tHPJqPoZtIFFFCw21nczFuv0DIGM3miyf8ErkAC6RuvpJVdm1Xt1FfwT5Rglshun5CAVMRPLVbU9gduCut2HvUmNPo98m/OMmiAHp1P6NVIYor6Ls4i521eGxigczSslGNHwyjoXHA1AJeIvGymX4QtrehCqHl0rwZZX+4UkX9Yp3kyPT4ELswzKd8YyMHWvHvgmnxj5ZG+ex30qwhQT0KgE5R1QKYNhgrJaFG+vSIsH1wH2Q7UduBpwqtBlRYQaN+P5ZGPB4vUPwTCDJN8tKdgyqNL0E2UnUu7+ac80lGo2+BMYXA0VrkKPmhUC1TYKZCudRJVg1Mp638m+xu7g941zLjFBEzuIWGF17RXi7+PjeGlpUuCbekUrxuJ/851IZQY1bjzvUE6CUgUv3Y=
+  on:
+    tags: true
