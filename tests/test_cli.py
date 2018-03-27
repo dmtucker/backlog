@@ -1,18 +1,17 @@
-# coding: utf-8
+"""Test backlog.cli."""
 
-"""Tests for backlog.cli"""
 
+import importlib
 
 import pytest
 
 import backlog.cli
 
 
-def test___main__():
+def test_python_m():
     """Test python -m functionality."""
     with pytest.raises(SystemExit) as excinfo:
-        # pylint: disable=redefined-outer-name, unused-variable
-        import backlog.__main__
+        importlib.import_module('backlog.__main__')
     assert excinfo.value.code != 0
 
 
