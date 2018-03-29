@@ -1,4 +1,4 @@
-"""Test backlog.backlog."""
+"""Test backlog.api."""
 
 
 import os
