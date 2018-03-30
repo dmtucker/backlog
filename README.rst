@@ -21,7 +21,21 @@ Backlog can be run as a command-line utility.
 
 .. code:: sh
 
-    backlog --help
+    $ backlog --help
+    usage: backlog [-h] [-f FILE] [--version] {add,random,rm,show} ...
+
+    positional arguments:
+      {add,random,rm,show}
+        add                 Add an entry to the backlog.
+        random              Select a random entry from the backlog.
+        rm                  Remove entries in the backlog.
+        show                Show entries in the backlog.
+
+    optional arguments:
+      -h, --help            show this help message and exit
+      -f FILE, --file FILE  Specify a backlog file. (default:
+                            /home/david/.backlog.json)
+      --version             show program's version number and exit
 
 Backlog can also be imported into other Python projects.
 

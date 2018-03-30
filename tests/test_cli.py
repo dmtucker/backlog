@@ -1,26 +1,28 @@
-# coding: utf-8
+"""Test backlog.cli."""
 
-"""Tests for backlog.cli"""
 
+import importlib
+import unittest.mock
 
 import pytest
 
 import backlog.cli
 
 
-def test___main__():
+def test_python_m():
     """Test python -m functionality."""
-    with pytest.raises(SystemExit) as excinfo:
-        # pylint: disable=redefined-outer-name, unused-variable
-        import backlog.__main__
-    assert excinfo.value.code != 0
+    with unittest.mock.patch('sys.argv', []):
+        with pytest.raises(SystemExit) as excinfo:
+            importlib.import_module('backlog.__main__')
+        assert excinfo.value.code == 0
 
 
 def test_empty():
     """Test invocation with no arguments."""
-    with pytest.raises(SystemExit) as excinfo:
-        backlog.cli.main()
-    assert excinfo.value.code != 0
+    with unittest.mock.patch('sys.argv', []):
+        with pytest.raises(SystemExit) as excinfo:
+            backlog.cli.main()
+        assert excinfo.value.code == 0
 
 
 def test_show(tmpdir):
