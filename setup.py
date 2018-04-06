@@ -49,6 +49,9 @@ setuptools.setup(
     packages=setuptools.find_packages('src'),
     include_package_data=True,
     python_requires='~=3.5',
+    install_requires=[
+        'click~=6.7',
+    ],
     entry_points={'console_scripts': ['backlog = backlog.cli:main']},
     keywords='notes backlog todo list',
     classifiers=[

@@ -6,4 +6,4 @@ from __future__ import absolute_import
 
 import backlog.cli
 
-backlog.cli.main()
+backlog.cli.main()  # pylint: disable=no-value-for-parameter

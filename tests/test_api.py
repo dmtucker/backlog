@@ -10,7 +10,7 @@ import pytest
 from backlog import Backlog
 
 
-# Fixtures trigger redefined errors when used correctly:
+# @pytest.fixture denotes a function that is meant to be redefined:
 # pylint: disable=redefined-outer-name
 
 
