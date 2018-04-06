@@ -17,7 +17,7 @@ class Backlog(list):
         with open(path, 'w') as backlog_f:
             backlog_f.write(
                 json.dumps(
-                    [entry.__dict__ for entry in self],
+                    [vars(entry) for entry in self],
                     sort_keys=True,
                     indent=2,
                     separators=(',', ': '),
