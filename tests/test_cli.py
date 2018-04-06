@@ -3,10 +3,11 @@
 
 import importlib
 import unittest.mock
+import uuid
 
 import pytest
 
-import backlog.cli
+import backlog.cli as cli
 
 
 # @click.command changes function parameters at runtime:
@@ -25,48 +26,42 @@ def test_empty():
     """Test invocation with no arguments."""
     with unittest.mock.patch('sys.argv', []):
         with pytest.raises(SystemExit) as excinfo:
-            backlog.cli.main()
+            cli.main()
         assert excinfo.value.code == 0
 
 
-def test_show(tmpdir):
+def test_show(saved_backlog):
     """Test an invocation of show."""
+    _, path = saved_backlog
     with pytest.raises(SystemExit) as excinfo:
-        backlog.cli.main([
-            '--path', str(tmpdir.join('backlog.json')),
-            'show',
-        ])
+        cli.main(['--path', path, 'show'])
     assert excinfo.value.code == 0
 
 
-def test_random(tmpdir):
+def test_show_empty(path):
+    """Test an invocation of show with no entries."""
+    with pytest.raises(SystemExit) as excinfo:
+        cli.main(['--path', path, 'show'])
+    assert excinfo.value.code == 0
+
+
+def test_random(path):
     """Test an invocation of random."""
     with pytest.raises(SystemExit) as excinfo:
-        backlog.cli.main([
-            '--path', str(tmpdir.join('backlog.json')),
-            'random',
-        ])
+        cli.main(['--path', path, 'random'])
     assert excinfo.value.code == 0
 
 
-def test_add_remove(tmpdir):
+def test_add(path):
     """Test an invocation of add and remove."""
-    path = str(tmpdir.join('backlog.json'))
     with pytest.raises(SystemExit) as excinfo:
-        backlog.cli.main([
-            '--path', path,
-            'add', 'example',
-        ])
+        cli.main(['--path', path, 'add', str(uuid.uuid4())])
     assert excinfo.value.code == 0
+
+
+def test_remove(saved_backlog):
+    """Test an invocation of add and remove."""
+    _, path = saved_backlog
     with pytest.raises(SystemExit) as excinfo:
-        backlog.cli.main([
-            '--path', path,
-            'show',
-        ])
-    assert excinfo.value.code == 0
-    with pytest.raises(SystemExit) as excinfo:
-        backlog.cli.main([
-            '--path', path,
-            'remove', '--dont-ask', 'example',
-        ])
+        cli.main(['--path', path, 'remove', '--dont-ask', '.*'])
     assert excinfo.value.code == 0
