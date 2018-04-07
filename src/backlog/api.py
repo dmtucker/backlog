@@ -43,12 +43,15 @@ class Backlog(object):
 
     def random(self):
         """Randomly pick an Entry from a distribution weighted by priority."""
-        weighted = [
-            entry
-            for entry in self.entries
-            for _ in range(entry.priority)
-        ]
-        return random.choice(weighted) if weighted else None
+        if self.entries:
+            lowest = min(self.entries, key=lambda entry: entry.priority)
+            offset = max(lowest.priority, 1 - lowest.priority)
+            return random.choice([
+                entry
+                for entry in self.entries
+                for _ in range(entry.priority + offset)
+            ])
+        return None
 
     def save(self, path):
         """Save a Backlog to a file."""
