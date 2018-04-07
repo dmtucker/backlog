@@ -48,7 +48,7 @@ setuptools.setup(
     package_dir={'': 'src'},
     packages=setuptools.find_packages('src'),
     include_package_data=True,
-    python_requires='~=3.5',
+    python_requires='~=3.6',
     install_requires=[
         'attrs~=17.4',
         'click~=6.7',
@@ -60,7 +60,6 @@ setuptools.setup(
         'GNU Lesser General Public License v2 or later (LGPLv2+)',
         'Intended Audience :: End Users/Desktop',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
         'Development Status :: 5 - Production/Stable',
     ],
