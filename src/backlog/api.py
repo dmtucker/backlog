@@ -5,64 +5,86 @@ import random
 import re
 
 
-class Backlog(list):
+class Backlog(object):
     """A backlog is a list of Backlog.Entry objects."""
+
+    @classmethod
+    def load(cls, path):
+        """Load a Backlog from a file."""
+        with open(path, 'r') as backlog_f:
+            entries = json.load(backlog_f)
+        return cls(
+            entries=[Backlog.Entry(**entry_dict) for entry_dict in entries],
+        )
+
+    def __contains__(self, entry):
+        """Check for the presence of a particular Backlog.Entry."""
+        return entry in self.entries
+
+    def __eq__(self, backlog):
+        """Check another Backlog for equality."""
+        return isinstance(backlog, self.__class__) and \
+            self.entries == backlog.entries
+
+    def __init__(self, entries=None):
+        """Intialize the Backlog with a sequence  of entries."""
+        self.entries = entries or []
+
+    def __repr__(self):
+        """Provide a pretty representation."""
+        return '{0}(entries={1!r})'.format(
+            self.__class__.__name__,
+            self.entries,
+        )
 
     def __str__(self):
         """Join Backlog.Entry summaries."""
-        return '\n'.join(entry.summary() for entry in self)
+        return '\n'.join(entry.summary() for entry in self.entries)
+
+    def random(self):
+        """Randomly pick an Entry from a distribution weighted by priority."""
+        weighted = [
+            entry
+            for entry in self.entries
+            for _ in range(entry.priority)
+        ]
+        return random.choice(weighted) if weighted else None
 
     def save(self, path):
         """Save a Backlog to a file."""
         with open(path, 'w') as backlog_f:
             backlog_f.write(
                 json.dumps(
-                    [vars(entry) for entry in self],
+                    [vars(entry) for entry in self.entries],
                     sort_keys=True,
                     indent=2,
                     separators=(',', ': '),
                 ),
             )
 
-    def load(self, path):
-        """Load a Backlog from a file."""
-        with open(path, 'r') as backlog_f:
-            entries = json.load(backlog_f)
-        for entry_dict in entries:
-            self.append(Backlog.Entry(**entry_dict))
-        return self
-
     def search(self, pattern, invert=False):
-        """Find an Entry in the Backlog."""
-        backlog = Backlog()
-        for entry in self:
-            if (re.search(pattern, entry.title) is None) == invert:
-                backlog.append(entry)
-        return backlog
-
-    def random(self):
-        """Randomly pick an Entry from a distribution weighted by priority."""
-        selection = []
-        for i, entry in enumerate(self):
-            selection.extend([i]*entry.priority)
-        return self[random.choice(selection)] if selection else None
+        """Find Entries in the Backlog."""
+        return [
+            entry for entry in self.entries
+            if (re.search(pattern, entry.title) is None) == invert
+        ]
 
     class Entry(object):  # pylint: disable=too-few-public-methods
         """A Backlog.Entry is a note with a title and a priority."""
+
+        def __eq__(self, entry):
+            """Check another Backlog.Entry for equality."""
+            return isinstance(entry, self.__class__) and all([
+                self.title == entry.title,
+                self.priority == entry.priority,
+                self.note == entry.note,
+            ])
 
         def __init__(self, title=None, priority=1, note=''):
             """Initialize attributes."""
             self.title = random.randint(0, 1000000) if title is None else title
             self.priority = priority
             self.note = note
-
-        def __eq__(self, item):
-            """Check another Backlog.Entry for equality."""
-            return all([
-                self.title == item.title,
-                self.priority == item.priority,
-                self.note == item.note,
-            ])
 
         def __repr__(self):
             """Provide a pretty representation."""

@@ -17,21 +17,23 @@ from backlog import Backlog
 @pytest.fixture
 def backlog():
     """Get a Backlog with at least 1 Entry."""
-    backlog_ = Backlog([
-        Backlog.Entry(title='test-1', priority=-100),
-        Backlog.Entry(title='test-2', priority=0),
-        Backlog.Entry(title='test-3', priority=1),
-        Backlog.Entry(title='test-4', priority=2),
-        Backlog.Entry(title='test-5', priority=100),
-    ])
-    random.shuffle(backlog_)
+    backlog_ = Backlog(
+        entries=[
+            Backlog.Entry(title='test-1', priority=-100),
+            Backlog.Entry(title='test-2', priority=0),
+            Backlog.Entry(title='test-3', priority=1),
+            Backlog.Entry(title='test-4', priority=2),
+            Backlog.Entry(title='test-5', priority=100),
+        ],
+    )
+    random.shuffle(backlog_.entries)
     return backlog_
 
 
 @pytest.fixture
 def backlog_entry(backlog):
     """Get a Backlog and an Entry it contains."""
-    return backlog, random.choice(backlog)
+    return backlog, random.choice(backlog.entries)
 
 
 @pytest.fixture

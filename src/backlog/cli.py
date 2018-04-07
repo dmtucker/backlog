@@ -18,27 +18,16 @@ import backlog
 @click.pass_context
 def main(ctx, path):
     """Manage a Backlog."""
-    if not os.path.isfile(path):
-        backlog.Backlog().save(path)
-    ctx.obj = {'path': path}
+    ctx.obj = {
+        'backlog': (
+            backlog.Backlog.load(path)
+            if os.path.isfile(path) else
+            backlog.Backlog()
+        ),
+        'path': path,
+    }
     if ctx.invoked_subcommand is None:
         ctx.invoke(show)
-
-
-@main.command()
-@click.option(
-    '--pattern',
-    type=str,
-    help='Specify a search pattern for entry titles.',
-    default='.*',
-)
-@click.pass_context
-def show(ctx, pattern):
-    """Show entries in the backlog."""
-    entries = backlog.Backlog().load(ctx.obj['path']).search(pattern)
-    click.echo('total {}'.format(len(entries)))
-    if entries:
-        click.echo(entries)
 
 
 @main.command()
@@ -58,22 +47,21 @@ def show(ctx, pattern):
 @click.pass_context
 def add(ctx, note, priority, title):
     """Add an entry to the backlog."""
-    entries = backlog.Backlog().load(ctx.obj['path'])
-    entries.append(
+    ctx.obj['backlog'].entries.append(
         backlog.Backlog.Entry(
             note=note,
             priority=priority,
             title=title,
         ),
     )
-    entries.save(ctx.obj['path'])
+    ctx.obj['backlog'].save(ctx.obj['path'])
 
 
 @main.command()
 @click.pass_context
 def random(ctx):
     """Select a random entry from the backlog."""
-    click.echo(backlog.Backlog().load(ctx.obj['path']).random())
+    click.echo(ctx.obj['backlog'].random())
 
 
 @main.command()
@@ -86,8 +74,28 @@ def random(ctx):
 @click.pass_context
 def remove(ctx, ask, pattern):
     """Remove entries from the backlog."""
-    entries = backlog.Backlog().load(ctx.obj['path'])
-    results = entries.search(pattern)
-    click.echo(results)
-    if not ask or click.confirm('delete {0} entries?'.format(len(results))):
-        entries.search(pattern, invert=True).save(ctx.obj['path'])
+    entries = ctx.obj['backlog'].search(pattern)
+    click.echo(entries)
+    if entries:
+        if not ask or click.confirm(
+                'delete {0} entries?'.format(len(entries)),
+        ):
+            backlog.Backlog(
+                entries=ctx.obj['backlog'].search(pattern, invert=True),
+            ).save(ctx.obj['path'])
+
+
+@main.command()
+@click.option(
+    '--pattern',
+    type=str,
+    help='Specify a search pattern for entry titles.',
+    default='.*',
+)
+@click.pass_context
+def show(ctx, pattern):
+    """Show entries in the backlog."""
+    entries = ctx.obj['backlog'].search(pattern)
+    click.echo('total {}'.format(len(entries)))
+    if entries:
+        click.echo(backlog.Backlog(entries=entries))
