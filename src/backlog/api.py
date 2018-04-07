@@ -4,42 +4,34 @@ import json
 import random
 import re
 
+import attr
 
+
+@attr.s
 class Backlog(object):
     """A backlog is a list of Backlog.Entry objects."""
 
-    @classmethod
-    def load(cls, path):
-        """Load a Backlog from a file."""
-        with open(path, 'r') as backlog_f:
-            entries = json.load(backlog_f)
-        return cls(
-            entries=[Backlog.Entry(**entry_dict) for entry_dict in entries],
-        )
+    entries = attr.ib(default=attr.Factory(list))
 
     def __contains__(self, entry):
         """Check for the presence of a particular Backlog.Entry."""
         return entry in self.entries
 
-    def __eq__(self, backlog):
-        """Check another Backlog for equality."""
-        return isinstance(backlog, self.__class__) and \
-            self.entries == backlog.entries
-
-    def __init__(self, entries=None):
-        """Intialize the Backlog with a sequence  of entries."""
-        self.entries = entries or []
-
-    def __repr__(self):
-        """Provide a pretty representation."""
-        return '{0}(entries={1!r})'.format(
-            self.__class__.__name__,
-            self.entries,
-        )
-
     def __str__(self):
         """Join Backlog.Entry summaries."""
         return '\n'.join(entry.summary() for entry in self.entries)
+
+    @classmethod
+    def load(cls, path):
+        """Load a Backlog from a file."""
+        with open(path, 'r') as backlog_f:
+            entry_dicts = json.load(backlog_f)
+        return cls(
+            entries=[
+                Backlog.Entry(**entry_dict)
+                for entry_dict in entry_dicts
+            ],
+        )
 
     def random(self):
         """Randomly pick an Entry from a distribution weighted by priority."""
@@ -58,7 +50,7 @@ class Backlog(object):
         with open(path, 'w') as backlog_f:
             backlog_f.write(
                 json.dumps(
-                    [vars(entry) for entry in self.entries],
+                    [attr.asdict(entry) for entry in self.entries],
                     sort_keys=True,
                     indent=2,
                     separators=(',', ': '),
@@ -72,31 +64,13 @@ class Backlog(object):
             if (re.search(pattern, entry.title) is None) == invert
         ]
 
-    class Entry(object):  # pylint: disable=too-few-public-methods
+    @attr.s  # pylint: disable=too-few-public-methods
+    class Entry(object):
         """A Backlog.Entry is a note with a title and a priority."""
 
-        def __eq__(self, entry):
-            """Check another Backlog.Entry for equality."""
-            return isinstance(entry, self.__class__) and all([
-                self.title == entry.title,
-                self.priority == entry.priority,
-                self.note == entry.note,
-            ])
-
-        def __init__(self, title=None, priority=1, note=''):
-            """Initialize attributes."""
-            self.title = random.randint(0, 1000000) if title is None else title
-            self.priority = priority
-            self.note = note
-
-        def __repr__(self):
-            """Provide a pretty representation."""
-            return '{0}(title={1!r}, priority={2!r}, note={3!r})'.format(
-                self.__class__.__name__,
-                self.title,
-                self.priority,
-                self.note,
-            )
+        title = attr.ib()
+        priority = attr.ib(default=0)
+        note = attr.ib(default='')
 
         def __str__(self):
             """Produce a string that exposes all attributes."""

@@ -50,6 +50,7 @@ setuptools.setup(
     include_package_data=True,
     python_requires='~=3.5',
     install_requires=[
+        'attrs~=17.4',
         'click~=6.7',
     ],
     entry_points={'console_scripts': ['backlog = backlog.cli:main']},

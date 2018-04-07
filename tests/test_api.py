@@ -4,6 +4,7 @@
 import os
 import uuid
 
+import attr
 import pytest
 
 import backlog.api as api
@@ -55,26 +56,6 @@ def test_backlog_eq_identical_empty():
     """An empty Backlog is equal to itself."""
     empty_backlog = api.Backlog()
     assert empty_backlog == empty_backlog
-
-
-def test_backlog_init(backlog):
-    """vars(Backlog()) should be unpackable into Backlog()."""
-    assert backlog == api.Backlog(**vars(backlog))
-
-
-def test_backlog_repr(backlog):
-    """Ensure that __repr__ is a valid serialization."""
-    locals()['Backlog'] = api.Backlog
-    locals()['Entry'] = api.Backlog.Entry
-    assert backlog == eval(repr(backlog))  # pylint: disable=eval-used
-
-
-def test_backlog_repr_empty():
-    """Ensure that __repr__ is a valid serialization."""
-    empty_backlog = api.Backlog()
-    locals()['Backlog'] = api.Backlog
-    # pylint: disable=eval-used
-    assert empty_backlog == eval(repr(empty_backlog))
 
 
 def test_backlog_str(backlog):
@@ -155,17 +136,11 @@ def test_entry_eq_identical(entry):
 
 def test_entry_init(entry):
     """
-    vars(Entry()) should be unpackable into Entry().
+    attr.asdict(Entry()) should be unpackable into Entry().
 
     This is used for Backlog.save and Backlog.load.
     """
-    assert entry == api.Backlog.Entry(**vars(entry))
-
-
-def test_entry_repr(entry):
-    """Ensure that __repr__ is a valid serialization."""
-    locals()['Entry'] = api.Backlog.Entry
-    assert entry == eval(repr(entry))  # pylint: disable=eval-used
+    assert entry == api.Backlog.Entry(**attr.asdict(entry))
 
 
 def test_entry_str(entry):
@@ -180,3 +155,11 @@ def test_entry_str(entry):
 def test_entry_summary_is_str(entry):
     """Entry.summary() must return a str."""
     assert isinstance(entry.summary(), str)
+
+
+@pytest.mark.parametrize('fixture', ['backlog', 'entry'])
+def test_repr(request, fixture):
+    """Ensure that __repr__ is a valid serialization."""
+    obj = request.getfixturevalue(fixture)
+    locals()['Backlog'] = api.Backlog
+    assert obj == eval(repr(obj))  # pylint: disable=eval-used
