@@ -49,18 +49,17 @@ class Backlog(object):
             """Produce a string that exposes all attributes."""
             return '\n'.join([
                 self.title,
-                'priority: {}'.format(self.priority),
+                f'priority: {self.priority}',
                 self.note,
             ])
 
         def summary(self) -> str:
             """Produce a one-line string less than 81 characters."""
-            return '{title:24}{sep}{priority:8}{sep}{note:44}'.format(
-                sep=(' '*2),
-                title=self.title[:24],
-                priority=min(self.priority, 99999999),
-                note=self.note[:44],
-            )
+            return '  '.join([
+                f'{self.title[:24]:24}',
+                f'{min(self.priority, 99999999):8}',
+                f'{self.note[:44]:44}',
+            ])
 
     entries: List[Entry] = attr.ib(
         validator=_list_of(Entry),

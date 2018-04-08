@@ -79,9 +79,7 @@ def remove(ctx, pattern: str, ask: bool) -> None:
     entries = list(ctx.obj['backlog'].search(pattern))
     click.echo(str(backlog.Backlog(entries=entries)))
     if entries:
-        if not ask or click.confirm(
-                'delete {0} entries?'.format(len(entries)),
-        ):
+        if not ask or click.confirm(f'delete {len(entries)} entries?'):
             backlog.Backlog(
                 entries=list(ctx.obj['backlog'].search(pattern, invert=True)),
             ).save(ctx.obj['path'])

@@ -48,7 +48,7 @@ def entry():
 @pytest.fixture
 def path(tmpdir):
     """Get the path of a writable file."""
-    path_ = str(tmpdir.join('{0}.json'.format(uuid.uuid4())))
+    path_ = str(tmpdir.join(f'{uuid.uuid4()}.json'))
     yield path_
     try:
         os.remove(path_)
