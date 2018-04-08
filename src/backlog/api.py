@@ -117,7 +117,6 @@ class Backlog(object):
             invert: bool = False,
     ) -> Generator[Entry, None, None]:
         """Find Entries in the Backlog."""
-        return (
-            entry for entry in self.entries
-            if (re.search(pattern, entry.title) is None) == invert
-        )
+        for entry in self.entries:
+            if (re.search(pattern, entry.title) is None) == invert:
+                yield entry
