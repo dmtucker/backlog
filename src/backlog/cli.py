@@ -41,7 +41,7 @@ def main(ctx, path: str) -> None:
     '--priority',
     type=int,
     help='Specify a priority level.',
-    default=1,
+    default=0,
 )
 @click.argument('title', type=str)
 @click.pass_context
