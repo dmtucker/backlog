@@ -58,6 +58,13 @@ def test_backlog_eq_identical_empty():
     assert empty_backlog == empty_backlog
 
 
+@pytest.mark.parametrize('entries', [{1: 'a'}, [1, 'a']])
+def test_backlog_init_bad_type(entries):
+    """Backlog().entries must be a list of Backlog.Entry objects."""
+    with pytest.raises(TypeError):
+        api.Backlog(entries=entries)
+
+
 def test_backlog_str(backlog):
     """Backlog.__str__ should delimit all entries with a newline."""
     assert len(str(backlog).split('\n')) == len(backlog.entries)
@@ -93,26 +100,26 @@ def test_backlog_save_empty(path):
 def test_backlog_search(backlog_entry):
     """Searching a Backlog must match Entry objects by title."""
     backlog, entry = backlog_entry
-    assert backlog.search(pattern=entry.title) == [entry]
+    assert list(backlog.search(pattern=entry.title)) == [entry]
 
 
 @pytest.mark.parametrize('invert', [True, False])
 def test_backlog_search_empty(invert):
     """Searching an empty Backlog must not return any Entries."""
-    assert api.Backlog().search(pattern='.*', invert=invert) == []
+    with pytest.raises(StopIteration):
+        next(api.Backlog().search(pattern='.*', invert=invert))
 
 
 def test_backlog_search_invert(backlog):
-    """Doing an inverted Search should not return matches."""
-    assert backlog.entries == backlog.search(
-        pattern=str(uuid.uuid4()),
-        invert=True,
-    )
+    """Doing an inverted search should not return matches."""
+    with pytest.raises(StopIteration):
+        next(backlog.search(pattern='.*', invert=True))
 
 
 def test_backlog_search_unmatchable(backlog):
     """Searching for nonexistent Entries should not return matches."""
-    assert backlog.search(pattern=str(uuid.uuid4())) == []
+    with pytest.raises(StopIteration):
+        next(backlog.search(pattern=str(uuid.uuid4())))
 
 
 def test_entry_eq_bad_type(entry):

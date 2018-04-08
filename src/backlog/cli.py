@@ -16,7 +16,7 @@ import backlog
 )
 @click.version_option(version=backlog.__version__)
 @click.pass_context
-def main(ctx, path):
+def main(ctx, path: str) -> None:
     """Manage a Backlog."""
     ctx.obj = {
         'backlog': (
@@ -45,7 +45,7 @@ def main(ctx, path):
 )
 @click.argument('title', type=str)
 @click.pass_context
-def add(ctx, note, priority, title):
+def add(ctx, title: str, note: str, priority: int) -> None:
     """Add an entry to the backlog."""
     ctx.obj['backlog'].entries.append(
         backlog.Backlog.Entry(
@@ -59,7 +59,7 @@ def add(ctx, note, priority, title):
 
 @main.command()
 @click.pass_context
-def random(ctx):
+def random(ctx) -> None:
     """Select a random entry from the backlog."""
     click.echo(ctx.obj['backlog'].random())
 
@@ -72,16 +72,16 @@ def random(ctx):
 )
 @click.argument('pattern', type=str)
 @click.pass_context
-def remove(ctx, ask, pattern):
+def remove(ctx, pattern: str, ask: bool) -> None:
     """Remove entries from the backlog."""
-    entries = ctx.obj['backlog'].search(pattern)
+    entries = list(ctx.obj['backlog'].search(pattern))
     click.echo(entries)
     if entries:
         if not ask or click.confirm(
                 'delete {0} entries?'.format(len(entries)),
         ):
             backlog.Backlog(
-                entries=ctx.obj['backlog'].search(pattern, invert=True),
+                entries=list(ctx.obj['backlog'].search(pattern, invert=True)),
             ).save(ctx.obj['path'])
 
 
@@ -93,9 +93,9 @@ def remove(ctx, ask, pattern):
     default='.*',
 )
 @click.pass_context
-def show(ctx, pattern):
+def show(ctx, pattern: str) -> None:
     """Show entries in the backlog."""
-    entries = ctx.obj['backlog'].search(pattern)
+    entries = list(ctx.obj['backlog'].search(pattern))
     click.echo('total {}'.format(len(entries)))
     if entries:
         click.echo(backlog.Backlog(entries=entries))

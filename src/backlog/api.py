@@ -3,15 +3,69 @@
 import json
 import random
 import re
+from typing import Callable, Generator, List, Union
 
 import attr
 
 
+def _list_of(cls: type) -> Callable:
+    def _validator(_, attribute, value):
+        if not isinstance(value, list):
+            raise TypeError(f'{attribute} must be a list!')
+        if not all(isinstance(item, cls) for item in value):
+            raise TypeError(
+                f'{attribute} must be a list of {cls.__name__} objects!',
+            )
+    return _validator
+
+
 @attr.s
 class Backlog(object):
-    """A backlog is a list of Backlog.Entry objects."""
+    """A Backlog is a list of Backlog.Entry objects."""
 
-    entries = attr.ib(default=attr.Factory(list))
+    # https://github.com/PyCQA/pylint/issues/1694
+    # pylint: disable=unsubscriptable-object
+    # pylint: disable=unsupported-membership-test
+    # pylint: disable=not-an-iterable
+
+    # https://github.com/PyCQA/pylint/issues/1976
+    # pylint: disable=undefined-variable
+
+    @attr.s  # pylint: disable=too-few-public-methods
+    class Entry(object):
+        """A Backlog.Entry is a note with a title and a priority."""
+
+        title: str = attr.ib(validator=attr.validators.instance_of(str))
+        priority: int = attr.ib(
+            validator=attr.validators.instance_of(int),
+            default=0,
+        )
+        note: str = attr.ib(
+            validator=attr.validators.instance_of(str),
+            default='',
+        )
+
+        def __str__(self):
+            """Produce a string that exposes all attributes."""
+            return '\n'.join([
+                self.title,
+                'priority: {}'.format(self.priority),
+                self.note,
+            ])
+
+        def summary(self) -> str:
+            """Produce a one-line string less than 81 characters."""
+            return '{title:24}{sep}{priority:8}{sep}{note:44}'.format(
+                sep=(' '*2),
+                title=self.title[:24],
+                priority=min(self.priority, 99999999),
+                note=self.note[:44],
+            )
+
+    entries: List[Entry] = attr.ib(
+        validator=_list_of(Entry),
+        default=attr.Factory(list),
+    )
 
     def __contains__(self, entry):
         """Check for the presence of a particular Backlog.Entry."""
@@ -22,7 +76,7 @@ class Backlog(object):
         return '\n'.join(entry.summary() for entry in self.entries)
 
     @classmethod
-    def load(cls, path):
+    def load(cls, path: str):
         """Load a Backlog from a file."""
         with open(path, 'r') as backlog_f:
             entry_dicts = json.load(backlog_f)
@@ -33,7 +87,7 @@ class Backlog(object):
             ],
         )
 
-    def random(self):
+    def random(self) -> Union[Entry, None]:
         """Randomly pick an Entry from a distribution weighted by priority."""
         if self.entries:
             lowest = min(self.entries, key=lambda entry: entry.priority)
@@ -45,7 +99,7 @@ class Backlog(object):
             ])
         return None
 
-    def save(self, path):
+    def save(self, path: str) -> None:
         """Save a Backlog to a file."""
         with open(path, 'w') as backlog_f:
             backlog_f.write(
@@ -57,34 +111,13 @@ class Backlog(object):
                 ),
             )
 
-    def search(self, pattern, invert=False):
+    def search(
+            self,
+            pattern: str,
+            invert: bool = False,
+    ) -> Generator[Entry, None, None]:
         """Find Entries in the Backlog."""
-        return [
+        return (
             entry for entry in self.entries
             if (re.search(pattern, entry.title) is None) == invert
-        ]
-
-    @attr.s  # pylint: disable=too-few-public-methods
-    class Entry(object):
-        """A Backlog.Entry is a note with a title and a priority."""
-
-        title = attr.ib()
-        priority = attr.ib(default=0)
-        note = attr.ib(default='')
-
-        def __str__(self):
-            """Produce a string that exposes all attributes."""
-            return '\n'.join([
-                self.title,
-                'priority: {}'.format(self.priority),
-                self.note,
-            ])
-
-        def summary(self):
-            """Produce a one-line string less than 81 characters."""
-            return '{title:24}{sep}{priority:8}{sep}{note:44}'.format(
-                sep=(' '*2),
-                title=self.title[:24],
-                priority=min(self.priority, 99999999),
-                note=self.note[:44],
-            )
+        )
