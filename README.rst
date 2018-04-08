@@ -11,7 +11,7 @@ Track prioritized notes with this glorified TODO list.
 .. |Test Coverage| image:: https://img.shields.io/coveralls/dmtucker/backlog.svg
    :target: https://coveralls.io/github/dmtucker/backlog
 .. |PyPI Version| image:: https://img.shields.io/pypi/v/backlog.svg
-   :target: https://pypi.python.org/pypi/backlog
+   :target: https://pypi.org/project/backlog
 
 Installation
 ============
