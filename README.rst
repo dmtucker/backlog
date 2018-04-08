@@ -6,10 +6,17 @@ Track prioritized notes with this glorified TODO list.
 
 |Build Status| |Test Coverage| |PyPI Version|
 
+.. |Build Status| image:: https://img.shields.io/travis/dmtucker/backlog.svg
+   :target: https://travis-ci.org/dmtucker/backlog
+.. |Test Coverage| image:: https://img.shields.io/coveralls/dmtucker/backlog.svg
+   :target: https://coveralls.io/github/dmtucker/backlog
+.. |PyPI Version| image:: https://img.shields.io/pypi/v/backlog.svg
+   :target: https://pypi.python.org/pypi/backlog
+
 Installation
 ============
 
-Use `pip <https://pip.pypa.io/>`__ to install Backlog from `PyPI <https://pypi.org/project/backlog/>`__.
+Use `pip <https://pip.pypa.io/>`__ to install Backlog.
 
 .. code:: sh
 
@@ -41,6 +48,30 @@ CLI
       remove  Remove entries from the backlog.
       show    Show entries in the backlog.
 
+::
+
+    $ backlog add --priority 100 'Pay the water bill'
+    $ backlog add --priority 200 --note "eggs, bread, milk" 'Buy groceries'
+    $ backlog add 'Clean out the freezer'
+    $ backlog show
+    total 3
+    Pay the water bill             100
+    Buy groceries                  200  eggs, bread, milk
+    Clean out the freezer            0
+
+::
+
+    $ backlog random
+    Buy groceries
+    priority: 200
+    eggs, bread, milk
+
+::
+
+    $ backlog show --pattern bill
+    total 1
+    Pay the water bill             100
+
 API
 ---
 
@@ -49,28 +80,22 @@ API
     >>> from backlog import Backlog
     >>> help(Backlog)
 
-License
--------
+.. code:: python
 
-Copyright (C) 2016 David Tucker
+    >>> backlog = Backlog(
+    ...     entries=[
+    ...         Backlog.Entry('Pay the water bill', priority=100),
+    ...         Backlog.Entry('Buy groceries', priority=200, note='eggs, bread, milk'),
+    ...         Backlog.Entry('Clean out the freezer'),
+    ...     ],
+    ... )
 
-This library is free software; you can redistribute it and/or modify it
-under the terms of the GNU Lesser General Public License as published by
-the Free Software Foundation; either version 2.1 of the License, or (at
-your option) any later version.
+.. code:: python
 
-This library is distributed in the hope that it will be useful, but
-WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser
-General Public License for more details.
+    >>> backlog.random()
+    Backlog.Entry(title='Buy groceries', priority=200, note='eggs, bread, milk')
 
-You should have received a copy of the GNU Lesser General Public License
-along with this library; if not, write to the Free Software Foundation,
-Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+.. code:: python
 
-.. |Build Status| image:: https://img.shields.io/travis/dmtucker/backlog.svg
-   :target: https://travis-ci.org/dmtucker/backlog
-.. |Test Coverage| image:: https://img.shields.io/coveralls/dmtucker/backlog.svg
-   :target: https://coveralls.io/github/dmtucker/backlog
-.. |PyPI Version| image:: https://img.shields.io/pypi/v/backlog.svg
-   :target: https://pypi.python.org/pypi/backlog
+    >>> list(backlog.search('bill'))
+    [Backlog.Entry(title='Pay the water bill', priority=100, note='')]
