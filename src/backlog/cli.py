@@ -61,7 +61,9 @@ def add(ctx, title: str, note: str, priority: int) -> None:
 @click.pass_context
 def random(ctx) -> None:
     """Select a random entry from the backlog."""
-    click.echo(ctx.obj['backlog'].random())
+    entry = ctx.obj['backlog'].random()
+    if entry:
+        click.echo(str(entry))
 
 
 @main.command()
@@ -75,7 +77,7 @@ def random(ctx) -> None:
 def remove(ctx, pattern: str, ask: bool) -> None:
     """Remove entries from the backlog."""
     entries = list(ctx.obj['backlog'].search(pattern))
-    click.echo(entries)
+    click.echo(str(backlog.Backlog(entries=entries)))
     if entries:
         if not ask or click.confirm(
                 'delete {0} entries?'.format(len(entries)),
@@ -96,6 +98,6 @@ def remove(ctx, pattern: str, ask: bool) -> None:
 def show(ctx, pattern: str) -> None:
     """Show entries in the backlog."""
     entries = list(ctx.obj['backlog'].search(pattern))
-    click.echo('total {}'.format(len(entries)))
+    click.echo(f'total {len(entries)}')
     if entries:
-        click.echo(backlog.Backlog(entries=entries))
+        click.echo(str(backlog.Backlog(entries=entries)))
