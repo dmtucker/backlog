@@ -1,47 +1,53 @@
+=======
 Backlog
 =======
 
-Backlog is basically a glorified TODO list.
+Track prioritized notes with this glorified TODO list.
 
 |Build Status| |Test Coverage| |PyPI Version|
 
 Installation
-------------
+============
 
-Backlog is available on `PyPI <https://pypi.python.org/pypi/backlog>`__.
+Use `pip <https://pip.pypa.io/>`__ to install Backlog from `PyPI <https://pypi.org/project/backlog/>`__.
 
 .. code:: sh
 
     pip install backlog
 
 Usage
------
+=====
 
-Backlog can be run as a command-line utility.
+Backlog can be invoked from a command-line or imported in Python.
 
-.. code:: sh
+CLI
+---
+
+::
 
     $ backlog --help
-    usage: backlog [-h] [-f FILE] [--version] {add,random,rm,show} ...
+    Usage: backlog [OPTIONS] COMMAND [ARGS]...
 
-    positional arguments:
-      {add,random,rm,show}
-        add                 Add an entry to the backlog.
-        random              Select a random entry from the backlog.
-        rm                  Remove entries in the backlog.
-        show                Show entries in the backlog.
+      Manage a Backlog.
 
-    optional arguments:
-      -h, --help            show this help message and exit
-      -f FILE, --file FILE  Specify a backlog file. (default:
-                            /home/david/.backlog.json)
-      --version             show program's version number and exit
+    Options:
+      --path PATH  Specify the path to use for the backlog file.
+      --version    Show the version and exit.
+      --help       Show this message and exit.
 
-Backlog can also be imported into other Python projects.
+    Commands:
+      add     Add an entry to the backlog.
+      random  Select a random entry from the backlog.
+      remove  Remove entries from the backlog.
+      show    Show entries in the backlog.
+
+API
+---
 
 .. code:: python
 
-    from backlog import Backlog
+    >>> from backlog import Backlog
+    >>> help(Backlog)
 
 License
 -------

@@ -2,74 +2,87 @@
 
 
 import os
-import random
 import uuid
 
+import attr
 import pytest
 
-from backlog import Backlog
-
-
-# Fixtures trigger redefined errors when used correctly:
-# pylint: disable=redefined-outer-name
-
-
-@pytest.fixture
-def backlog():
-    """Get a Backlog with at least 1 Entry."""
-    backlog_ = Backlog([
-        Backlog.Entry(title='test-1', priority=-100),
-        Backlog.Entry(title='test-2', priority=0),
-        Backlog.Entry(title='test-3', priority=1),
-        Backlog.Entry(title='test-4', priority=2),
-        Backlog.Entry(title='test-5', priority=100),
-    ])
-    random.shuffle(backlog_)
-    return backlog_
-
-
-@pytest.fixture
-def backlog_entry(backlog):
-    """Get a Backlog and an Entry it contains."""
-    return backlog, random.choice(backlog)
-
-
-@pytest.fixture
-def entry():
-    """Get a Backlog.Entry."""
-    return Backlog.Entry(
-        title='test-foo',
-        priority=10,
-    )
-
-
-@pytest.fixture
-def path(tmpdir):
-    """Get the path of a writable file."""
-    path_ = str(tmpdir.join('{0}.json'.format(uuid.uuid4())))
-    yield path_
-    try:
-        os.remove(path_)
-    except FileNotFoundError:
-        pass
-
-
-@pytest.fixture
-def saved_backlog(backlog, path):
-    """Get a Backlog and a path to a file where it has been saved."""
-    backlog.save(path=path)
-    return backlog, path
+import backlog.api as api
 
 
 def test_backlog_load(saved_backlog):
     """Verify that a saved Backlog is equivalent when re-loaded."""
     backlog, path = saved_backlog
-    assert backlog == Backlog().load(path)
+    assert backlog == api.Backlog.load(path)
+
+
+def test_backlog_contains(backlog_entry):
+    """Backlog.__contains__ returns True when a Backlog contains an entry."""
+    backlog, entry = backlog_entry
+    assert entry in backlog
+
+
+def test_backlog_contains_nothing():
+    """Backlog.__contains__ returns False when the Backlog is empty."""
+    assert None not in api.Backlog()
+
+
+def test_backlog_eq_bad_type(backlog):
+    """Backlog objects are not equal to objects of different types."""
+    assert backlog != []
+
+
+def test_backlog_eq_bad_type_empty():
+    """Empty Backlog objects are not equal to objects of different types."""
+    assert api.Backlog() != []
+
+
+def test_backlog_eq_duplicate(backlog):
+    """Backlog objects are equal if they have the same entries."""
+    assert backlog == api.Backlog(entries=backlog.entries)
+
+
+def test_backlog_eq_duplicate_empty():
+    """Empty Backlog objects are equal if they have the same entries."""
+    assert api.Backlog() == api.Backlog()
+
+
+def test_backlog_eq_identical(backlog):
+    """A Backlog is equal to itself."""
+    assert backlog == backlog
+
+
+def test_backlog_eq_identical_empty():
+    """An empty Backlog is equal to itself."""
+    empty_backlog = api.Backlog()
+    assert empty_backlog == empty_backlog
+
+
+@pytest.mark.parametrize('entries', [{1: 'a'}, [1, 'a']])
+def test_backlog_init_bad_type(entries):
+    """Backlog().entries must be a list of Backlog.Entry objects."""
+    with pytest.raises(TypeError):
+        api.Backlog(entries=entries)
+
+
+def test_backlog_str(backlog):
+    """Backlog.__str__ should delimit all entries with a newline."""
+    assert len(str(backlog).split('\n')) == len(backlog.entries)
+
+
+def test_backlog_str_empty():
+    """Backlog.__str__ should return an empty string for an empty Backlog."""
+    assert str(api.Backlog()) == ''
 
 
 def test_backlog_random(backlog):
     """Backlog.random() must return an Entry the Backlog contains."""
-    assert backlog.random() in backlog
+    assert backlog.random() in backlog.entries
+
+
+def test_backlog_random_empty():
+    """Backlog.random() must return None if the Backlog is empty."""
+    assert api.Backlog().random() is None
 
 
 def test_backlog_save(backlog, path):
@@ -78,30 +91,63 @@ def test_backlog_save(backlog, path):
     assert os.path.isfile(path) and os.stat(path).st_size > 0
 
 
+def test_backlog_save_empty(path):
+    """Ensure that saving an empty Backlog creates a file with data in it."""
+    api.Backlog().save(path=path)
+    assert os.path.isfile(path) and os.stat(path).st_size > 0
+
+
 def test_backlog_search(backlog_entry):
     """Searching a Backlog must match Entry objects by title."""
     backlog, entry = backlog_entry
-    entries = backlog.search(pattern=entry.title)
-    assert len(entries) == 1 and entries[0] == entry
+    assert list(backlog.search(pattern=entry.title)) == [entry]
+
+
+@pytest.mark.parametrize('invert', [True, False])
+def test_backlog_search_empty(invert):
+    """Searching an empty Backlog must not return any Entries."""
+    with pytest.raises(StopIteration):
+        next(api.Backlog().search(pattern='.*', invert=invert))
 
 
 def test_backlog_search_invert(backlog):
-    """Doing an inverted Search should not return matches."""
-    assert backlog == backlog.search(pattern=str(uuid.uuid4()), invert=True)
+    """Doing an inverted search should not return matches."""
+    with pytest.raises(StopIteration):
+        next(backlog.search(pattern='.*', invert=True))
 
 
-def test_entry_equality_duplicate(entry):
+def test_backlog_search_unmatchable(backlog):
+    """Searching for nonexistent Entries should not return matches."""
+    with pytest.raises(StopIteration):
+        next(backlog.search(pattern=str(uuid.uuid4())))
+
+
+def test_entry_eq_bad_type(entry):
+    """Entry objects are not equal to objects of different types."""
+    assert entry != {}
+
+
+def test_entry_eq_duplicate(entry):
     """Backlog.Entry objects are equal if they have the same attributes."""
-    assert entry == Backlog.Entry(
+    assert entry == api.Backlog.Entry(
         note=entry.note,
         title=entry.title,
         priority=entry.priority,
     )
 
 
-def test_entry_equality_identical(entry):
+def test_entry_eq_identical(entry):
     """An Entry is equal to itself."""
     assert entry == entry
+
+
+def test_entry_init(entry):
+    """
+    attr.asdict(Entry()) should be unpackable into Entry().
+
+    This is used for Backlog.save and Backlog.load.
+    """
+    assert entry == api.Backlog.Entry(**attr.asdict(entry))
 
 
 def test_entry_str(entry):
@@ -121,6 +167,6 @@ def test_entry_summary_is_str(entry):
 @pytest.mark.parametrize('fixture', ['backlog', 'entry'])
 def test_repr(request, fixture):
     """Ensure that __repr__ is a valid serialization."""
-    value = request.getfixturevalue(fixture)
-    locals()['Entry'] = Backlog.Entry  # Entry is an inner class.
-    assert value == eval(repr(value))  # pylint: disable=eval-used
+    obj = request.getfixturevalue(fixture)
+    locals()['Backlog'] = api.Backlog
+    assert obj == eval(repr(obj))  # pylint: disable=eval-used
