@@ -1,26 +1,15 @@
 """This module defines Backlog and Backlog.Entry."""
 
+# https://github.com/PyCQA/pylint/issues/2261
+import dataclasses  # pylint: disable=wrong-import-order
 import json
 import random
 import re
-from typing import Callable, Generator, List, Union
-
-import attr
+from typing import Generator, List, Union
 
 
-def _list_of(cls: type) -> Callable:
-    def _validator(_, attribute, value):
-        if not isinstance(value, list):
-            raise TypeError(f'{attribute} must be a list!')
-        if not all(isinstance(item, cls) for item in value):
-            raise TypeError(
-                f'{attribute} must be a list of {cls.__name__} objects!',
-            )
-    return _validator
-
-
-@attr.s
-class Backlog(object):
+@dataclasses.dataclass
+class Backlog:
     """A Backlog is a list of Backlog.Entry objects."""
 
     # https://github.com/PyCQA/pylint/issues/1694
@@ -31,19 +20,13 @@ class Backlog(object):
     # https://github.com/PyCQA/pylint/issues/1976
     # pylint: disable=undefined-variable
 
-    @attr.s  # pylint: disable=too-few-public-methods
-    class Entry(object):
+    @dataclasses.dataclass
+    class Entry:
         """A Backlog.Entry is a note with a title and a priority."""
 
-        title: str = attr.ib(validator=attr.validators.instance_of(str))
-        priority: int = attr.ib(
-            validator=attr.validators.instance_of(int),
-            default=0,
-        )
-        note: str = attr.ib(
-            validator=attr.validators.instance_of(str),
-            default='',
-        )
+        title: str
+        priority: int = 0
+        note: str = ''
 
         def __str__(self):
             """Produce a string that exposes all attributes."""
@@ -61,10 +44,7 @@ class Backlog(object):
                 f'{self.note[:44]:44}',
             ])
 
-    entries: List[Entry] = attr.ib(
-        validator=_list_of(Entry),
-        default=attr.Factory(list),
-    )
+    entries: List[Entry] = dataclasses.field(default_factory=list)
 
     def __contains__(self, entry):
         """Check for the presence of a particular Backlog.Entry."""
@@ -103,7 +83,7 @@ class Backlog(object):
         with open(path, 'w') as backlog_f:
             backlog_f.write(
                 json.dumps(
-                    [attr.asdict(entry) for entry in self.entries],
+                    [dataclasses.asdict(entry) for entry in self.entries],
                     sort_keys=True,
                     indent=2,
                     separators=(',', ': '),
