@@ -1,13 +1,14 @@
 """Test backlog.api."""
 
 
+# https://github.com/PyCQA/pylint/issues/2261
+import dataclasses  # pylint: disable=wrong-import-order
 import os
 import uuid
 
-import attr
 import pytest
 
-import backlog.api as api
+from backlog import api
 
 
 def test_backlog_load(saved_backlog):
@@ -45,24 +46,6 @@ def test_backlog_eq_duplicate(backlog):
 def test_backlog_eq_duplicate_empty():
     """Empty Backlog objects are equal if they have the same entries."""
     assert api.Backlog() == api.Backlog()
-
-
-def test_backlog_eq_identical(backlog):
-    """A Backlog is equal to itself."""
-    assert backlog == backlog
-
-
-def test_backlog_eq_identical_empty():
-    """An empty Backlog is equal to itself."""
-    empty_backlog = api.Backlog()
-    assert empty_backlog == empty_backlog
-
-
-@pytest.mark.parametrize('entries', [{1: 'a'}, [1, 'a']])
-def test_backlog_init_bad_type(entries):
-    """Backlog().entries must be a list of Backlog.Entry objects."""
-    with pytest.raises(TypeError):
-        api.Backlog(entries=entries)
 
 
 def test_backlog_str(backlog):
@@ -136,18 +119,13 @@ def test_entry_eq_duplicate(entry):
     )
 
 
-def test_entry_eq_identical(entry):
-    """An Entry is equal to itself."""
-    assert entry == entry
-
-
 def test_entry_init(entry):
     """
-    attr.asdict(Entry()) should be unpackable into Entry().
+    dataclasses.asdict(Entry()) should be unpackable into Entry().
 
     This is used for Backlog.save and Backlog.load.
     """
-    assert entry == api.Backlog.Entry(**attr.asdict(entry))
+    assert entry == api.Backlog.Entry(**dataclasses.asdict(entry))
 
 
 def test_entry_str(entry):

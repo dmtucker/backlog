@@ -8,7 +8,7 @@ import uuid
 
 import pytest
 
-import backlog.cli as cli
+from backlog import cli
 
 
 # @click.command changes function parameters at runtime:
