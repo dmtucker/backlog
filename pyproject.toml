@@ -8,6 +8,7 @@ legacy_tox_ini = """
 
 envlist =
     py37
+    py38
 
 [testenv]
 

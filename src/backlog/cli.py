@@ -61,7 +61,8 @@ def add(ctx, title: str, note: str, priority: int) -> None:
 @click.pass_context
 def random(ctx) -> None:
     """Select a random entry from the backlog."""
-    entry = ctx.obj['backlog'].random()
+    # https://github.com/PyCQA/pylint/issues/2737
+    entry = ctx.obj['backlog'].random()  # pylint: disable=multiple-statements
     if entry:
         click.echo(str(entry))
 
