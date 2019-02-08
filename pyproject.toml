@@ -21,7 +21,7 @@ deps =
 
     # https://github.com/pytest-dev
     pytest
-    pytest-cov
+    pytest-cov ~= 2.0
     pytest-randomly
 
     # other
@@ -33,5 +33,5 @@ commands =
     ./setup.py check --metadata --strict
     python -m backlog --version
     backlog --help
-    pytest --cov backlog --cov-report term-missing --flake8 --mypy-ignore-missing-imports --pylint {posargs}
+    pytest --cov backlog --cov-fail-under 100 --flake8 --mypy-ignore-missing-imports --pylint {posargs}
 """
