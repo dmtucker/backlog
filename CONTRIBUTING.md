@@ -4,18 +4,19 @@ Please [open an issue](https://help.github.com/articles/creating-an-issue/) to d
 
 ## Environment
 
-The development environment is built around [`git`](https://git-scm.com/doc) and [`pipenv`](https://docs.pipenv.org/):
+[`git`](https://git-scm.com/doc) and [`pip`](https://pip.pypa.io/) are the primary development tools:
 ``` sh
 git clone https://github.com/dmtucker/backlog
 cd backlog/
-pipenv install --dev
+python -m venv venv
+venv/bin/pip install --editable .[dev]
 ```
 
 ### Tests
 
 [`tox`](https://tox.readthedocs.io/) and [`pytest`](https://docs.pytest.org/) are used for validation:
 ``` sh
-pipenv run tox -- --pdb
+venv/bin/tox -- --pdb
 ```
 
 ## Submitting Changes
