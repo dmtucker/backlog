@@ -66,7 +66,8 @@ class Backlog:
             ],
         )
 
-    def random(self) -> Union[Entry, None]:
+    # https://github.com/PyCQA/pyflakes/issues/427
+    def random(self) -> Union[Entry, None]:  # noqa: F821
         """Randomly pick an Entry from a distribution weighted by priority."""
         if self.entries:
             lowest = min(self.entries, key=lambda entry: entry.priority)
@@ -90,11 +91,12 @@ class Backlog:
                 ),
             )
 
+    # https://github.com/PyCQA/pyflakes/issues/427
     def search(
             self,
             pattern: str,
             invert: bool = False,
-    ) -> Generator[Entry, None, None]:
+    ) -> Generator[Entry, None, None]:  # noqa: F821
         """Find Entries in the Backlog."""
         for entry in self.entries:
             if (re.search(pattern, entry.title) is None) == invert:

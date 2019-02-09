@@ -52,6 +52,12 @@ setuptools.setup(
     install_requires=[
         'click~=6.7',
     ],
+    extras_require={
+        'dev': [
+            'tox',
+            'twine',
+        ],
+    },
     entry_points={'console_scripts': ['backlog = backlog.cli:main']},
     keywords='notes backlog todo list',
     classifiers=[

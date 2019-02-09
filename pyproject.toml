@@ -1,3 +1,9 @@
+[build-system]
+requires = ['setuptools>=40.2.0', 'wheel']
+build-backend = 'setuptools.build_meta'
+
+[tool.tox]
+legacy_tox_ini = """
 [tox]
 
 envlist =
@@ -28,3 +34,4 @@ commands =
     python -m backlog --version
     backlog --help
     pytest --cov backlog --cov-report term-missing --flake8 --mypy-ignore-missing-imports --pylint {posargs}
+"""

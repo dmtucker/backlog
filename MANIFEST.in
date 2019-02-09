@@ -1,3 +1,4 @@
 graft src/backlog
 global-exclude *.py[cod] __pycache__
 include LICENSE
+include pyproject.toml
