@@ -4,12 +4,10 @@ Backlog
 
 Track prioritized notes with this glorified TODO list.
 
-|Build Status| |Test Coverage| |PyPI Version|
+|Build Status| |PyPI Version|
 
 .. |Build Status| image:: https://img.shields.io/travis/dmtucker/backlog.svg
    :target: https://travis-ci.org/dmtucker/backlog
-.. |Test Coverage| image:: https://img.shields.io/coveralls/dmtucker/backlog.svg
-   :target: https://coveralls.io/github/dmtucker/backlog
 .. |PyPI Version| image:: https://img.shields.io/pypi/v/backlog.svg
    :target: https://pypi.org/project/backlog
 
