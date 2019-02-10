@@ -7,7 +7,7 @@ sudo: true  # https://github.com/travis-ci/travis-ci/issues/9815
 branches:
   only:
   - master
-before_install: pip install --upgrade 'pip >= 18.1'
+before_install: pip install --upgrade 'pip >= 19'
 install: pip install tox-travis
 script: tox
 deploy:
