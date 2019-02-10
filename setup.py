@@ -52,7 +52,7 @@ setuptools.setup(
     ],
     extras_require={
         'dev': [
-            'tox ~= 3.3',
+            'tox ~= 3.4',
             'twine',
         ],
     },
