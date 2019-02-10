@@ -1,5 +1,3 @@
-#!/usr/bin/env python3.7
-
 """A setuptools based setup module.
 
 See:
