@@ -46,9 +46,9 @@ setuptools.setup(
     package_dir={'': 'src'},
     packages=setuptools.find_packages('src'),
     include_package_data=True,
-    python_requires='~=3.7',
+    python_requires='~= 3.7',
     install_requires=[
-        'click~=6.7',
+        'click ~= 6.7',
     ],
     extras_require={
         'dev': [
