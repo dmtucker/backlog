@@ -1,7 +1,6 @@
 """Test backlog.cli."""
 
 
-import importlib
 import io
 import unittest.mock
 import uuid
@@ -20,14 +19,6 @@ def test_main_entry_point():
     with unittest.mock.patch('sys.argv', ['--help']):
         with pytest.raises(SystemExit) as excinfo:
             cli.main()
-        assert excinfo.value.code == 0
-
-
-def test_main_python_m():
-    """Test python -m functionality."""
-    with unittest.mock.patch('sys.argv', ['--help']):
-        with pytest.raises(SystemExit) as excinfo:
-            importlib.import_module('backlog.__main__')
         assert excinfo.value.code == 0
 
 
