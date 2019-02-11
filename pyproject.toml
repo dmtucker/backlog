@@ -32,8 +32,5 @@ deps =
     pytest-mypy
     pytest-pylint
 
-commands =
-    python setup.py check --metadata --strict
-    backlog --help
-    pytest --cov backlog --cov-fail-under 100 --flake8 --mypy-ignore-missing-imports --pylint {posargs}
+commands = pytest --cov backlog --cov-fail-under 100 --flake8 --mypy-ignore-missing-imports --pylint {posargs}
 """
