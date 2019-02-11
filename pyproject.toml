@@ -16,21 +16,21 @@ envlist =
 
 deps =
 
-    # https://github.com/PyCQA
-    flake8-bugbear
-    flake8-commas
-    flake8-docstrings
-    pep8-naming
-
     # https://github.com/pytest-dev
     pytest
     pytest-cov ~= 2.0
     pytest-randomly
 
-    # other
+    # unofficial plugins
     pytest-flake8
     pytest-mypy
     pytest-pylint
+
+    # https://github.com/PyCQA
+    flake8-bugbear
+    flake8-commas
+    flake8-docstrings
+    pep8-naming
 
 commands = pytest --cov backlog --cov-fail-under 100 --flake8 --mypy-ignore-missing-imports --pylint {posargs}
 
