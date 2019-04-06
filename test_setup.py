@@ -1,6 +1,7 @@
 """Test setup.py."""
 
 
+import os
 import subprocess
 import sys
 
@@ -13,5 +14,7 @@ def test_setup():
 
 def test_console_scripts():
     """Ensure console scripts were installed correctly."""
-    command = ['backlog', '--help']
-    assert subprocess.run(command).returncode == 0
+    assert any(
+        os.path.isfile(os.path.join(directory, 'backlog'))
+        for directory in sys.path
+    )
