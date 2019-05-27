@@ -56,4 +56,4 @@ It also deploys releases to the package repository automatically (see below).
 
 [PyPI](http://pypi.org/) serves releases publically.
 
-[![Build Status](https://img.shields.io/pypi/v/backlog.svg)](https://pypi.org/project/backlog)
+[![Release Status](https://img.shields.io/pypi/v/backlog.svg)](https://pypi.org/project/backlog)
