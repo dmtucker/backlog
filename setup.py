@@ -46,7 +46,12 @@ if __name__ == '__main__':
         author='David Tucker',
         author_email='david@tucker.name',
         license='LGPLv2+',
-        url='https://github.com/dmtucker/backlog',
+        url='https://pypi.org/projects/backlog',
+        project_urls={
+            'Code': 'https://github.com/dmtucker/backlog',
+            'Issues': 'https://github.com/dmtucker/backlog/issues',
+            'Builds': 'https://travis-ci.org/dmtucker/backlog',
+        },
         package_dir={'': 'src'},
         packages=setuptools.find_packages('src'),
         include_package_data=True,
