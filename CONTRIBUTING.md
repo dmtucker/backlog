@@ -35,9 +35,9 @@ tox -e dev -- "$SHELL"  # Run $SHELL in an environment with the project deployed
 
 ### Continuous Integration
 
-[Travis CI](https://travis-ci.org/) ensures the build never breaks and the tests always pass.
+[Travis CI](https://travis-ci.com/) ensures the build never breaks and the tests always pass.
 
-[![Build Status](https://travis-ci.org/dmtucker/backlog.svg?branch=master)](https://travis-ci.org/dmtucker/backlog)
+[![Build Status](https://travis-ci.com/dmtucker/backlog.svg?branch=master)](https://travis-ci.com/dmtucker/backlog)
 
 It also deploys releases to the package repository automatically (see below).
 

@@ -50,7 +50,7 @@ if __name__ == '__main__':
         project_urls={
             'Code': 'https://github.com/dmtucker/backlog',
             'Issues': 'https://github.com/dmtucker/backlog/issues',
-            'Builds': 'https://travis-ci.org/dmtucker/backlog',
+            'Builds': 'https://travis-ci.com/dmtucker/backlog',
         },
         package_dir={'': 'src'},
         packages=setuptools.find_packages('src'),
