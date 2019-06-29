@@ -7,8 +7,8 @@ python:
 branches:
   only:
   - master
-before_install: pip install 'pip ~= 19.0.2'
-install: pip install 'tox-travis ~= 0.11.0'
+before_install: pip install 'pip ~= 19.1.1'
+install: pip install 'tox-travis ~= 0.12'
 script: tox
 deploy:
   provider: pypi
