@@ -25,7 +25,7 @@ ENTRY_POINTS = {'console_scripts': ['backlog = backlog.cli:main']}
 if __name__ == '__main__':
     setuptools.setup(
         name='backlog',
-        version='1.0.0',
+        use_scm_version=True,
         description='A Glorified TODO list',
         long_description=read('README.rst'),
         author='David Tucker',
@@ -40,6 +40,7 @@ if __name__ == '__main__':
         package_dir={'': 'src'},
         packages=setuptools.find_packages('src'),
         include_package_data=True,
+        setup_requires=['setuptools_scm ~= 3.3'],
         python_requires='~= 3.7',
         install_requires=[
             'click ~= 7.0',
