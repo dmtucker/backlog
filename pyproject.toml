@@ -1,11 +1,11 @@
 [build-system]
-requires = ['setuptools ~= 40.8.0']
+requires = ['setuptools ~= 41.0.1']
 build-backend = 'setuptools.build_meta'
 
 [tool.tox]
 legacy_tox_ini = """
 [tox]
-minversion = 3.7.0
+minversion = 3.13.1
 isolated_build = true
 
 envlist =
@@ -17,21 +17,21 @@ envlist =
 deps =
 
     # https://github.com/pytest-dev
-    pytest ~= 4.2.0
-    pytest-cov ~= 2.6.1
-    pytest-randomly ~= 1.2.0
+    pytest ~= 5.0.0
+    pytest-cov ~= 2.7.1
+    pytest-randomly ~= 3.0.0
 
     # unofficial plugins
-    pytest-bandit ~= 0.3.1
-    pytest-flake8 ~= 1.0.0
-    pytest-mypy ~= 0.3.2
+    pytest-bandit ~= 0.5.1
+    pytest-flake8 ~= 1.0.4
+    pytest-mypy ~= 0.3.3
     pytest-pylint ~= 0.14.0
 
     # https://github.com/PyCQA
-    flake8 ~= 3.7.5
-    flake8-bugbear ~= 18.8.0
+    flake8 ~= 3.7.7
+    flake8-bugbear ~= 19.3.0
     flake8-commas ~= 2.0.0
-    flake8-docstrings ~= 1.2.0
+    flake8-docstrings ~= 1.3.0
     pep8-naming ~= 0.8.2
 
 commands =  dev: {posargs:python}

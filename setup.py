@@ -57,7 +57,7 @@ if __name__ == '__main__':
         include_package_data=True,
         python_requires='~= 3.7',
         install_requires=[
-            'click ~= 6.7',
+            'click ~= 7.0',
         ],
         entry_points=ENTRY_POINTS,
         keywords='notes backlog todo list',
