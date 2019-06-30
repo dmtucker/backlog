@@ -8,7 +8,6 @@ https://github.com/pypa/sampleproject
 
 import codecs
 import os.path
-import re
 
 import setuptools  # type: ignore
 
@@ -20,27 +19,13 @@ def read(*parts):
         return file_.read()
 
 
-def find_version(*file_paths):
-    """
-    Read the file in setup.py and parse the version with a regex.
-
-    https://packaging.python.org/guides/single-sourcing-package-version/
-    """
-    version_file = read(*file_paths)
-    version_match = re.search(r"^__version__ = ['\"]([^'\"]*)['\"]",
-                              version_file, re.M)
-    if version_match:
-        return version_match.group(1)
-    raise RuntimeError("Unable to find version string.")
-
-
 ENTRY_POINTS = {'console_scripts': ['backlog = backlog.cli:main']}
 
 
 if __name__ == '__main__':
     setuptools.setup(
         name='backlog',
-        version=find_version('src', 'backlog', '__init__.py'),
+        use_scm_version=True,
         description='A Glorified TODO list',
         long_description=read('README.rst'),
         author='David Tucker',
@@ -55,9 +40,11 @@ if __name__ == '__main__':
         package_dir={'': 'src'},
         packages=setuptools.find_packages('src'),
         include_package_data=True,
+        setup_requires=['setuptools_scm ~= 3.3'],
         python_requires='~= 3.7',
         install_requires=[
             'click ~= 7.0',
+            'setuptools ~= 41.0',
         ],
         entry_points=ENTRY_POINTS,
         keywords='notes backlog todo list',
