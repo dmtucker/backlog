@@ -2,58 +2,61 @@
 
 [GitHub](https://github.com/) hosts the project.
 
+[![GitHub repo size](https://img.shields.io/github/repo-size/dmtucker/backlog.svg)](https://github.com/dmtucker/backlog)
+
 ## Development
 
-Please [open an issue](https://help.github.com/articles/creating-an-issue/) to discuss any concerns or ideas for the project.
+Discuss changes by [creating an issue](https://help.github.com/articles/creating-an-issue).
+
+[![GitHub issues](https://img.shields.io/github/issues/dmtucker/backlog.svg)](https://github.com/dmtucker/backlog/issues)
 
 ### Version Control
 
-Use [`git`](https://git-scm.com/doc) to retrieve and manage the project source code:
+Use [`git`](https://git-scm.com/doc) to retrieve and manage the project source code.
+
 ``` sh
 git clone https://github.com/dmtucker/backlog.git
 ```
 
 ### Test Environment
 
-Use [`tox`](https://tox.readthedocs.io/) to deploy and run the project source code:
+Use [`tox`](https://tox.readthedocs.io/) to deploy and run the project source code.
+
 ``` sh
-tox                     # Build and Test the entire project.
-tox -e dev              # Run Python in an environment with the project deployed.
-tox -e dev -- "$SHELL"  # Run $SHELL in an environment with the project deployed.
+tox                                # Build and test the project
+tox -e py39                        # in a specific environment
+tox -e py39 -- --pdb               # with extra options or
+tox -e py39-dev -- backlog --help  # using an arbitrary command.
 ```
 
 ## Merges
 
-1. All change proposals are submitted by [creating a pull request](https://help.github.com/articles/creating-a-pull-request/) (PR).
-   - [Branch protection](https://help.github.com/articles/about-protected-branches/) is used to enforce acceptance criteria.
+Propose changes by [creating a pull request](https://help.github.com/articles/creating-a-pull-request/).
 
-2. All PRs are [associated with a milestone](https://help.github.com/articles/associating-milestones-with-issues-and-pull-requests/).
-   - Milestones serve as a change log for the project.
+[![GitHub pull requests](https://img.shields.io/github/issues-pr/dmtucker/backlog.svg)](https://github.com/dmtucker/backlog/pulls)
 
-3. Any PR that directly changes any release artifact gets 1 of 3 [labels](https://help.github.com/articles/applying-labels-to-issues-and-pull-requests/): `major`, `minor`, `patch`.
-   - This helps with release versioning.
+- [Branch protection](https://help.github.com/articles/about-protected-branches/) enforces acceptance criteria.
+- [Milestones](https://help.github.com/en/articles/about-milestones) serve as a changelog for the project.
+- [Labels](https://help.github.com/en/articles/about-labels) track the intent of each change.
 
 ### Continuous Integration
 
-[Travis CI](https://travis-ci.com/) ensures the build never breaks and the tests always pass.
+[Travis CI](https://travis-ci.com/) builds, tests, and deploys the project automatically.
 
-[![Build Status](https://travis-ci.com/dmtucker/backlog.svg?branch=master)](https://travis-ci.com/dmtucker/backlog)
-
-It also deploys releases to the package repository automatically (see below).
+[![Travis (.com) branch](https://img.shields.io/travis/com/dmtucker/backlog/master.svg)](https://travis-ci.com/dmtucker/backlog)
 
 ## Releases
 
-1. Releases are versioned according to [Semantic Versioning](http://semver.org/).
-   - https://semver.org/#why-use-semantic-versioning
+Distribute changes by [creating a release](https://help.github.com/en/articles/creating-releases).
 
-2. All releases are [tagged](https://git-scm.com/book/en/v2/Git-Basics-Tagging).
-   - This permanently associates a version with a commit.
+[![GitHub release](https://img.shields.io/github/release/dmtucker/backlog.svg)](https://github.com/dmtucker/backlog/releases)
 
-3. Every release closes a [milestone](https://help.github.com/articles/about-milestones/).
-   - This permanently associates a version with a milestone.
+1. [Change the version.](http://semver.org/)
+2. [Create a tag.](https://git-scm.com/book/en/v2/Git-Basics-Tagging)
+3. [Release the tag.](https://help.github.com/en/articles/creating-releases)
 
 ### Package Repository
 
-[PyPI](http://pypi.org/) serves releases publically.
+[PyPI](http://pypi.org/) distributes releases.
 
-[![Release Status](https://img.shields.io/pypi/v/backlog.svg)](https://pypi.org/project/backlog)
+[![PyPI](https://img.shields.io/pypi/v/backlog.svg)](https://pypi.org/project/backlog)
