@@ -31,7 +31,7 @@ if __name__ == '__main__':
         author='David Tucker',
         author_email='david@tucker.name',
         license='LGPLv2+',
-        url='https://pypi.org/projects/backlog',
+        url='https://pypi.org/project/backlog',
         project_urls={
             'Code': 'https://github.com/dmtucker/backlog',
             'Issues': 'https://github.com/dmtucker/backlog/issues',
