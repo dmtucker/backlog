@@ -2,25 +2,26 @@
 
 [GitHub](https://github.com/) hosts the project.
 
-[![GitHub repo size](https://img.shields.io/github/repo-size/dmtucker/backlog.svg)](https://github.com/dmtucker/backlog)
-
 ## Development
 
-Discuss changes by [creating an issue](https://help.github.com/articles/creating-an-issue).
+Develop changes by [cloning the repository](https://help.github.com/articles/cloning-a-repository).
 
-[![GitHub issues](https://img.shields.io/github/issues/dmtucker/backlog.svg)](https://github.com/dmtucker/backlog/issues)
+[![GitHub repo size](https://img.shields.io/github/repo-size/dmtucker/backlog.svg)](https://github.com/dmtucker/backlog)
 
 ### Version Control
 
-Use [`git`](https://git-scm.com/doc) to retrieve and manage the project source code.
+Use [`git`](https://git-scm.com/doc) to manage the repository.
 
 ``` sh
-git clone https://github.com/dmtucker/backlog.git
+git add -p
+git status
+git commit -S
+git log
 ```
 
 ### Test Environment
 
-Use [`tox`](https://tox.readthedocs.io/) to deploy and run the project source code.
+Use [`tox`](https://tox.readthedocs.io/) to build and test the code.
 
 ``` sh
 tox                        # Build and test the project
@@ -31,28 +32,25 @@ tox -e py39 --devenv venv  # create a development environment
 venv/bin/backlog --help    # and call scripts/binaries in it.
 ```
 
-## Merges
+## Continuous Integration
 
 Propose changes by [creating a pull request](https://help.github.com/articles/creating-a-pull-request/).
 
-[![GitHub pull requests](https://img.shields.io/github/issues-pr/dmtucker/backlog.svg)](https://github.com/dmtucker/backlog/pulls)
+[![GitHub last commit](https://img.shields.io/github/last-commit/dmtucker/backlog.svg)](https://github.com/dmtucker/backlog/commits)
 
-- [Branch protection](https://help.github.com/articles/about-protected-branches/) enforces acceptance criteria.
-- [Milestones](https://help.github.com/en/articles/about-milestones) serve as a changelog for the project.
-- [Labels](https://help.github.com/en/articles/about-labels) track the intent of each change.
+### Build Automation
+
+[GitHub Actions](https://github.com/features/actions) creates and tests builds before uploading them to [PyPI](https://pypi.org/).
+
+[![GitHub Workflow Status (branch)](https://img.shields.io/github/workflow/status/dmtucker/backlog/Test/master)](https://github.com/dmtucker/backlog/actions)
+[![PyPI - Status](https://img.shields.io/pypi/status/backlog.svg)](https://pypi.org/project/backlog)
 
 ## Releases
 
-Distribute changes by [creating a release](https://help.github.com/en/articles/creating-releases).
+Publish changes by [creating a release](https://help.github.com/articles/creating-releases).
 
 [![GitHub release](https://img.shields.io/github/release/dmtucker/backlog.svg)](https://github.com/dmtucker/backlog/releases)
 
-1. [Change the version.](http://semver.org/)
+1. [Change the version.](https://semver.org/)
 2. [Create a tag.](https://git-scm.com/book/en/v2/Git-Basics-Tagging)
-3. [Release the tag.](https://help.github.com/en/articles/creating-releases)
-
-### Package Repository
-
-[PyPI](http://pypi.org/) distributes releases.
-
-[![PyPI](https://img.shields.io/pypi/v/backlog.svg)](https://pypi.org/project/backlog)
+3. [Release the tag.](https://help.github.com/articles/about-releases)
