@@ -23,10 +23,12 @@ git clone https://github.com/dmtucker/backlog.git
 Use [`tox`](https://tox.readthedocs.io/) to deploy and run the project source code.
 
 ``` sh
-tox                                # Build and test the project
-tox -e py39                        # in a specific environment
-tox -e py39 -- --pdb               # with extra options or
-tox -e py39-dev -- backlog --help  # using an arbitrary command.
+tox                        # Build and test the project
+tox -e py39                # in a specific environment
+tox -e py39 -- --pdb       # with extra options,
+                           # or
+tox -e py39 --devenv venv  # create a development environment
+venv/bin/backlog --help    # and call scripts/binaries in it.
 ```
 
 ## Merges
