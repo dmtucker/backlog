@@ -1,7 +1,6 @@
 """This module defines Backlog and Backlog.Entry."""
 
-# https://github.com/PyCQA/pylint/issues/2261
-import dataclasses  # pylint: disable=wrong-import-order
+import dataclasses
 import json
 import random
 import re
@@ -11,11 +10,6 @@ from typing import Generator, List, Union
 @dataclasses.dataclass
 class Backlog:
     """A Backlog is a list of Backlog.Entry objects."""
-
-    # https://github.com/PyCQA/pylint/issues/1694
-    # pylint: disable=unsubscriptable-object
-    # pylint: disable=unsupported-membership-test
-    # pylint: disable=not-an-iterable
 
     # https://github.com/PyCQA/pylint/issues/1976
     # pylint: disable=undefined-variable
