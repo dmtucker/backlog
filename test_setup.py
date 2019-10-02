@@ -17,7 +17,7 @@ def test_setup():
         '--metadata',
         '--strict',
     ]
-    assert subprocess.run(command).returncode == 0
+    assert subprocess.run(command, check=False).returncode == 0
 
 
 def test_console_scripts():
