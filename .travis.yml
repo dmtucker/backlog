@@ -1,7 +1,7 @@
-dist: xenial
+dist: bionic
 language: python
 python:
-- 3.7
+- '3.7'
 - 3.7-dev
 - 3.8-dev
 before_install: pip install 'pip ~= 19.1.1'
@@ -9,10 +9,13 @@ install: pip install 'tox-travis ~= 0.12'
 script: tox
 deploy:
   provider: pypi
-  user: dmtucker
+  user: __token__
   password:
-    secure: nKYCEHMT4Ka5VjAoDSg7A75TJVYfYrRqJWg5CkfdZcU0R4+0AWsZRB0bazSMQYT0SgZVrrWTQr0fKRbgdgEbFB+jPEfSo3wD9Azv7EoB7yCI35vgEp/W+Ih7W8P/sbUw0XWWWB7DbzhiKEvIAvfYsTRt7gstX8U3VtYsnfXTiGrYhM5Vxs/KFY45lgExQ9ujDd3lwE+P81i62vk3LzaBDStd31dro3SgTN9SFFcRDvMR1c39+NY3/mmg+mnaST59nHbvFZrqtGqlf/GPdWnx/xeE1j8fqhLG+1fJjMQcBz0/FcAni/ShgvNbQBxkiOhBTAgvys1jDPapnVZcC4YKxtsTwmQuP3Ccq88ZD1CVz5vqZo3SijQ4CBNTZKOCZIuLuoNG7PY5BAspCstPjgyu331K77NYt3pRA1WF1DzIe48o+pJArIhPsX4ec75kW1bvNbVfwlITIMp0EtOWpLR6mA3yJ4LDaOUM4OWOtLh/29DwXSbjOp9IGmNW/KMoQNf7cP009ZyDR0elf9dFZwbznsbZYcJ9Uyse5BxSCmNWhvcCn5ofsrMb2znpbZ57XRdZE5SC8chfBlkAk+kB2jNaTsXwdTpTfqFTEpAA9C8dbsgHikD/lnDOqw9RRoBaYK+8Qma8ztYFvi3q6PcvEkJ+6aExTYoevUK4lMDxxyQUatk=
+    secure: LOUfKqS6aLP0TIET1OzdB/eODwRQEbG/mHlxmAMeQd6cVBL76i/YkgeuxGcBd3hGycE0gtReGhCTu5BROdPlW0ELWRovXAj+zYWbNClS6Qd/YMGsOhN6cnfpFed4cO4pDMue05ghy5Og0dv0Ejk+6BYy/sGQPn8AzSOnJaDa5vtUd0g34nTjB8egQweXQwRFgpkH6HJkqFZlOJUy0unMbyuMs9qR0LWNa2IFPQM7Ky/nPNcQhIriwfonrZf7oufWjcRR34ds7fOV+iTXm6kGmekdLw/pRi9WCWb+gMoBZJXDvapgZ9alZZniqlZCcZfJSoWxLx6rCeZdllmZkSrysSLhoQF8fwxmmPkkiD89TztLxnDOQLySieQ3DRXgUaAv8mziiWLwoSHJzRBRWgqsyxFj2OTYqqxjC3tkgOd3e5jRr+eyNTvHrfVcvAl1WURC5uAve2HohhYuRRWFLyOe+RYVOU63asFuNwLs8cXkAorAwHHJUScXmq/WQilHu1fa2oPjsvhKXqsOSJ8VT+NbqjHyBTAe4PIaIkn9pEZ/d+7ZyqRiQfBcZzQhqSbFewES3qrl1AOeoPCPWMxxyOWXtGUpYrVi4ViU072z02/a9ulDO1hzNrMt2wvc2Vk+NE4XqhxWs3K3SnhsQijWpEnzn4UQby21pZXgsW9GT9bLc4s=
+  distributions: sdist bdist_wheel
   on:
     repo: dmtucker/backlog
+    branch: master
     tags: true
     python: '3.7'
+  skip_existing: true
