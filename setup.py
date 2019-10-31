@@ -33,9 +33,10 @@ if __name__ == '__main__':
         license='LGPLv2+',
         url='https://pypi.org/project/backlog',
         project_urls={
-            'Code': 'https://github.com/dmtucker/backlog',
-            'Issues': 'https://github.com/dmtucker/backlog/issues',
             'Builds': 'https://travis-ci.com/dmtucker/backlog',
+            'Code': 'https://github.com/dmtucker/backlog',
+            'Documentation': 'https://dmtucker.github.io/backlog',
+            'Issues': 'https://github.com/dmtucker/backlog/issues',
         },
         package_dir={'': 'src'},
         packages=setuptools.find_packages('src'),

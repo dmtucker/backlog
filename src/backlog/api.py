@@ -1,10 +1,12 @@
 """This module defines Backlog and Backlog.Entry."""
 
+from __future__ import annotations
+
 import dataclasses
 import json
 import random
 import re
-from typing import Generator, List, Union
+from typing import Any, Generator, List, Optional
 
 
 @dataclasses.dataclass
@@ -22,7 +24,7 @@ class Backlog:
         priority: int = 0
         note: str = ''
 
-        def __str__(self):
+        def __str__(self) -> str:
             """Produce a string that exposes all attributes."""
             return '\n'.join([
                 self.title,
@@ -40,16 +42,16 @@ class Backlog:
 
     entries: List[Entry] = dataclasses.field(default_factory=list)
 
-    def __contains__(self, entry):
+    def __contains__(self, entry: Any) -> bool:
         """Check for the presence of a particular Backlog.Entry."""
         return entry in self.entries
 
-    def __str__(self):
+    def __str__(self) -> str:
         """Join Backlog.Entry summaries."""
         return '\n'.join(entry.summary() for entry in self.entries)
 
     @classmethod
-    def load(cls, path: str):
+    def load(cls, path: str) -> Backlog:
         """Load a Backlog from a file."""
         with open(path, 'r') as backlog_f:
             entry_dicts = json.load(backlog_f)
@@ -61,7 +63,7 @@ class Backlog:
         )
 
     # https://github.com/PyCQA/pyflakes/issues/427
-    def random(self) -> Union[Entry, None]:  # noqa: F821
+    def random(self) -> Optional[Entry]:  # noqa: F821
         """Randomly pick an Entry from a distribution weighted by priority."""
         if self.entries:
             lowest = min(self.entries, key=lambda entry: entry.priority)
