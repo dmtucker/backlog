@@ -4,6 +4,7 @@
 import os
 import subprocess
 import sys
+import sysconfig
 
 import setup
 
@@ -22,15 +23,6 @@ def test_setup():
 
 def test_console_scripts():
     """Ensure console scripts were installed correctly."""
-    assert all(
-        any(
-            os.path.isfile(
-                os.path.join(
-                    directory,
-                    console_script.partition('=')[0].strip(),
-                ),
-            )
-            for directory in os.environ['PATH'].split(':')
-        )
-        for console_script in setup.ENTRY_POINTS['console_scripts']
+    assert os.path.isfile(
+        os.path.join(sysconfig.get_path('scripts'), 'backlog'),
     )
