@@ -33,7 +33,7 @@ if __name__ == '__main__':
         license='LGPLv2+',
         url='https://pypi.org/project/backlog',
         project_urls={
-            'Builds': 'https://travis-ci.com/dmtucker/backlog',
+            'Builds': 'https://github.com/dmtucker/backlog/actions',
             'Code': 'https://github.com/dmtucker/backlog',
             'Documentation': 'https://dmtucker.github.io/backlog',
             'Issues': 'https://github.com/dmtucker/backlog/issues',
