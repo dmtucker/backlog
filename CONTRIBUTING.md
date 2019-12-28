@@ -41,12 +41,6 @@ Propose changes by [creating a pull request](https://help.github.com/articles/cr
 - [Milestones](https://help.github.com/en/articles/about-milestones) serve as a changelog for the project.
 - [Labels](https://help.github.com/en/articles/about-labels) track the intent of each change.
 
-### Continuous Integration
-
-[Travis CI](https://travis-ci.com/) builds, tests, and deploys the project automatically.
-
-[![Travis (.com) branch](https://img.shields.io/travis/com/dmtucker/backlog/master.svg)](https://travis-ci.com/dmtucker/backlog)
-
 ## Releases
 
 Distribute changes by [creating a release](https://help.github.com/en/articles/creating-releases).
