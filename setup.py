@@ -28,6 +28,7 @@ if __name__ == '__main__':
         use_scm_version=True,
         description='A Glorified TODO list',
         long_description=read('README.rst'),
+        long_description_content_type='text/x-rst',
         author='David Tucker',
         author_email='david@tucker.name',
         license='LGPLv2+',
