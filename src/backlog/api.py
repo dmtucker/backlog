@@ -68,7 +68,10 @@ class Backlog:
         if self.entries:
             lowest = min(self.entries, key=lambda entry: entry.priority)
             offset = max(lowest.priority, 1 - lowest.priority)
-            return random.choice([
+            # Standard pseudo-random generators are
+            # not suitable for security/cryptographic purposes.
+            pseudo_random_choice = random.choice
+            return pseudo_random_choice([
                 entry
                 for entry in self.entries
                 for _ in range(entry.priority + offset)
