@@ -15,9 +15,27 @@ Contributing to the project requires [understanding the GitHub flow](https://gui
 
 ### Environment
 
-Use [`tox`](https://tox.readthedocs.io/) to manage development and test environments:
+Use [`tox`](https://tox.readthedocs.io/) to manage development environments:
 
 ``` sh
-tox --devenv venv                # Create a development environment.
-tox $tox_opts -- $pytest_opts    # Build and test the project.
+tox --devenv venv
+```
+
+#### Testing
+
+``` sh
+tox -e static
+tox -e py -- $pytest_opts
+```
+
+#### Documentation
+
+``` sh
+tox -e docs -- $sphinx_outputdir
+```
+
+#### Publication
+
+``` sh
+tox -e publish -- $twine_optargs
 ```
