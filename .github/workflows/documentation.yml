@@ -1,0 +1,29 @@
+name: Documentation
+on:
+  release:
+    types: [created]
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - run: |
+        git fetch --prune --unshallow
+        git checkout gh-pages
+    - uses: actions/setup-python@v1
+      with:
+        python-version: '3.8'
+    - run: python -m pip install --upgrade tox
+    - env:
+        REFNAME: ${{ github.event.release.tag_name }}
+      run: |
+        tox -- "$REFNAME"
+        tox -e index -- "$REFNAME/"
+    - run: |
+        git add -A
+        git config user.name GitHub
+        git config user.email noreply@github.com
+        git commit \
+          --message 'Add docs for ${{ github.event.release.tag_name }}' \
+          --message "$GITHUB_WORKFLOW run $GITHUB_RUN_ID ($GITHUB_EVENT_NAME on $GITHUB_SHA)"
+        git push
