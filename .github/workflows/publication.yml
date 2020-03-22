@@ -1,4 +1,4 @@
-name: Publish
+name: Publication
 on:
   release:
     types: [created]
