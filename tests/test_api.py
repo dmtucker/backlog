@@ -1,8 +1,7 @@
 """Test backlog.api."""
 
 
-# https://github.com/PyCQA/pylint/issues/2261
-import dataclasses  # pylint: disable=wrong-import-order
+import dataclasses
 import os
 import re
 import uuid
@@ -51,12 +50,12 @@ def test_backlog_eq_duplicate_empty():
 
 def test_backlog_str(backlog):
     """Backlog.__str__ should delimit all entries with a newline."""
-    assert len(str(backlog).split('\n')) == len(backlog.entries)
+    assert len(str(backlog).split("\n")) == len(backlog.entries)
 
 
 def test_backlog_str_empty():
     """Backlog.__str__ should return an empty string for an empty Backlog."""
-    assert str(api.Backlog()) == ''
+    assert str(api.Backlog()) == ""
 
 
 def test_backlog_random(backlog):
@@ -87,17 +86,17 @@ def test_backlog_search(backlog_entry):
     assert list(backlog.search(pattern=re.compile(entry.title))) == [entry]
 
 
-@pytest.mark.parametrize('invert', [True, False])
+@pytest.mark.parametrize("invert", [True, False])
 def test_backlog_search_empty(invert):
     """Searching an empty Backlog must not return any Entries."""
     with pytest.raises(StopIteration):
-        next(api.Backlog().search(pattern=re.compile('.*'), invert=invert))
+        next(api.Backlog().search(pattern=re.compile(".*"), invert=invert))
 
 
 def test_backlog_search_invert(backlog):
     """Doing an inverted search should not return matches."""
     with pytest.raises(StopIteration):
-        next(backlog.search(pattern=re.compile('.*'), invert=True))
+        next(backlog.search(pattern=re.compile(".*"), invert=True))
 
 
 def test_backlog_search_unmatchable(backlog):
@@ -131,11 +130,13 @@ def test_entry_init(entry):
 
 def test_entry_str(entry):
     """All Entry attributes should be represented by __str__."""
-    assert all([
-        str(entry.title) in str(entry),
-        str(entry.priority) in str(entry),
-        str(entry.note) in str(entry),
-    ])
+    assert all(
+        [
+            str(entry.title) in str(entry),
+            str(entry.priority) in str(entry),
+            str(entry.note) in str(entry),
+        ],
+    )
 
 
 def test_entry_summary_is_str(entry):
@@ -143,9 +144,9 @@ def test_entry_summary_is_str(entry):
     assert isinstance(entry.summary(), str)
 
 
-@pytest.mark.parametrize('fixture', ['backlog', 'entry'])
+@pytest.mark.parametrize("fixture", ["backlog", "entry"])
 def test_repr(request, fixture):
     """Ensure that __repr__ is a valid serialization."""
     obj = request.getfixturevalue(fixture)
-    locals()['Backlog'] = api.Backlog
+    locals()["Backlog"] = api.Backlog
     assert obj == eval(repr(obj))  # pylint: disable=eval-used

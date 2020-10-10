@@ -19,11 +19,11 @@ def backlog():
     """Get a Backlog with at least 1 Entry."""
     backlog_ = Backlog(
         entries=[
-            Backlog.Entry(title='test-1', priority=-100),
-            Backlog.Entry(title='test-2', priority=0),
-            Backlog.Entry(title='test-3', priority=1),
-            Backlog.Entry(title='test-4', priority=2),
-            Backlog.Entry(title='test-5', priority=100),
+            Backlog.Entry(title="test-1", priority=-100),
+            Backlog.Entry(title="test-2", priority=0),
+            Backlog.Entry(title="test-3", priority=1),
+            Backlog.Entry(title="test-4", priority=2),
+            Backlog.Entry(title="test-5", priority=100),
         ],
     )
     random.shuffle(backlog_.entries)
@@ -40,7 +40,7 @@ def backlog_entry(backlog):
 def entry():
     """Get a Backlog.Entry."""
     return Backlog.Entry(
-        title='test-foo',
+        title="test-foo",
         priority=10,
     )
 
@@ -48,7 +48,7 @@ def entry():
 @pytest.fixture
 def path(tmpdir):
     """Get the path of a writable file."""
-    path_ = str(tmpdir.join(f'{uuid.uuid4()}.json'))
+    path_ = str(tmpdir.join(f"{uuid.uuid4()}.json"))
     yield path_
     try:
         os.remove(path_)
