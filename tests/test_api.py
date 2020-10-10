@@ -1,8 +1,7 @@
 """Test backlog.api."""
 
 
-# https://github.com/PyCQA/pylint/issues/2261
-import dataclasses  # pylint: disable=wrong-import-order
+import dataclasses
 import os
 import re
 import uuid

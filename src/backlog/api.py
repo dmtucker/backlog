@@ -13,9 +13,6 @@ from typing import Any, Generator, List, Optional, Pattern
 class Backlog:
     """A Backlog is a list of Backlog.Entry objects."""
 
-    # https://github.com/PyCQA/pylint/issues/1976
-    # pylint: disable=undefined-variable
-
     @dataclasses.dataclass
     class Entry:
         """A Backlog.Entry is a note with a title and a priority."""
@@ -62,8 +59,7 @@ class Backlog:
             ],
         )
 
-    # https://github.com/PyCQA/pyflakes/issues/427
-    def random(self) -> Optional[Entry]:  # noqa: F821
+    def random(self) -> Optional[Entry]:
         """Randomly pick an Entry from a distribution weighted by priority."""
         if self.entries:
             lowest = min(self.entries, key=lambda entry: entry.priority)
@@ -91,12 +87,11 @@ class Backlog:
                 ),
             )
 
-    # https://github.com/PyCQA/pyflakes/issues/427
     def search(
             self,
             pattern: Pattern[str],
             invert: bool = False,
-    ) -> Generator[Entry, None, None]:  # noqa: F821
+    ) -> Generator[Entry, None, None]:
         """Find Entries in the Backlog."""
         for entry in self.entries:
             if (pattern.search(entry.title) is None) == invert:
