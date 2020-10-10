@@ -6,8 +6,7 @@ import dataclasses
 import json
 import os
 import random
-import re
-from typing import Any, Generator, List, Optional
+from typing import Any, Generator, List, Optional, Pattern
 
 
 @dataclasses.dataclass
@@ -95,10 +94,10 @@ class Backlog:
     # https://github.com/PyCQA/pyflakes/issues/427
     def search(
             self,
-            pattern: str,
+            pattern: Pattern[str],
             invert: bool = False,
     ) -> Generator[Entry, None, None]:  # noqa: F821
         """Find Entries in the Backlog."""
         for entry in self.entries:
-            if (re.search(pattern, entry.title) is None) == invert:
+            if (pattern.search(entry.title) is None) == invert:
                 yield entry

@@ -68,6 +68,14 @@ def test_remove(saved_backlog):
         assert excinfo.value.code != 0
 
 
+@pytest.mark.parametrize('flag', ['--ask', '--dont-ask'])
+def test_remove_bad_pattern(path, flag):
+    """Test an invocation of remove with an invalid pattern."""
+    with pytest.raises(SystemExit) as excinfo:
+        cli.main(['--path', path, 'remove', flag, '*'])
+    assert excinfo.value.code != 0
+
+
 def test_remove_ask(saved_backlog):
     """Test an invocation of remove."""
     _, path = saved_backlog

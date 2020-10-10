@@ -4,6 +4,7 @@
 # https://github.com/PyCQA/pylint/issues/2261
 import dataclasses  # pylint: disable=wrong-import-order
 import os
+import re
 import uuid
 
 import pytest
@@ -83,26 +84,26 @@ def test_backlog_save_empty(path):
 def test_backlog_search(backlog_entry):
     """Searching a Backlog must match Entry objects by title."""
     backlog, entry = backlog_entry
-    assert list(backlog.search(pattern=entry.title)) == [entry]
+    assert list(backlog.search(pattern=re.compile(entry.title))) == [entry]
 
 
 @pytest.mark.parametrize('invert', [True, False])
 def test_backlog_search_empty(invert):
     """Searching an empty Backlog must not return any Entries."""
     with pytest.raises(StopIteration):
-        next(api.Backlog().search(pattern='.*', invert=invert))
+        next(api.Backlog().search(pattern=re.compile('.*'), invert=invert))
 
 
 def test_backlog_search_invert(backlog):
     """Doing an inverted search should not return matches."""
     with pytest.raises(StopIteration):
-        next(backlog.search(pattern='.*', invert=True))
+        next(backlog.search(pattern=re.compile('.*'), invert=True))
 
 
 def test_backlog_search_unmatchable(backlog):
     """Searching for nonexistent Entries should not return matches."""
     with pytest.raises(StopIteration):
-        next(backlog.search(pattern=str(uuid.uuid4())))
+        next(backlog.search(pattern=re.compile(str(uuid.uuid4()))))
 
 
 def test_entry_eq_bad_type(entry):
