@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import dataclasses
 import json
+import os
 import random
 import re
 from typing import Any, Generator, List, Optional
@@ -80,6 +81,7 @@ class Backlog:
 
     def save(self, path: str) -> None:
         """Save a Backlog to a file."""
+        os.makedirs(os.path.dirname(path), exist_ok=True)
         with open(path, 'w') as backlog_f:
             backlog_f.write(
                 json.dumps(

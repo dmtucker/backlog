@@ -12,7 +12,7 @@ import backlog
     '--path',
     type=click.Path(),
     help='Specify the path to use for the backlog file.',
-    default=os.path.join(os.path.expanduser('~'), '.backlog.json'),
+    default=os.path.join(click.get_app_dir('backlog'), 'entries.json'),
 )
 @click.version_option(version=backlog.__version__)
 @click.pass_context
