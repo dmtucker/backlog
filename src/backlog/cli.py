@@ -1,10 +1,33 @@
 """Interact with Backlogs on the command line."""
 
 import os
+import re
+from typing import Optional, Pattern
 
 import click
 
 import backlog
+
+
+class PatternParamType(click.ParamType):
+    """Validate regular expressions pattern parameters."""
+
+    name = 'pattern'
+
+    def convert(
+            self,
+            value: str,
+            param: Optional[click.Parameter],
+            ctx: Optional[click.Context],
+    ) -> Pattern[str]:
+        """Convert a pattern string to a Pattern."""
+        try:
+            return re.compile(value)
+        except re.error as exc:
+            self.fail(str(exc), param, ctx)
+
+
+PATTERN = PatternParamType()
 
 
 @click.group(invoke_without_command=True)
@@ -72,9 +95,9 @@ def random(ctx: click.Context) -> None:
     help='Prompt before deleting.',
     default=True,
 )
-@click.argument('pattern', type=str)
+@click.argument('pattern', type=PATTERN)
 @click.pass_context
-def remove(ctx: click.Context, pattern: str, ask: bool) -> None:
+def remove(ctx: click.Context, pattern: Pattern[str], ask: bool) -> None:
     """Remove entries from the backlog."""
     entries = list(ctx.obj['backlog'].search(pattern))
     click.echo(str(backlog.Backlog(entries=entries)))
@@ -88,12 +111,12 @@ def remove(ctx: click.Context, pattern: str, ask: bool) -> None:
 @main.command()
 @click.option(
     '--pattern',
-    type=str,
+    type=PATTERN,
     help='Specify a search pattern for entry titles.',
     default='.*',
 )
 @click.pass_context
-def show(ctx: click.Context, pattern: str) -> None:
+def show(ctx: click.Context, pattern: Pattern[str]) -> None:
     """Show entries in the backlog."""
     entries = list(ctx.obj['backlog'].search(pattern))
     click.echo(f'total {len(entries)}')
