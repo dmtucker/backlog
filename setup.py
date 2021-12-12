@@ -25,7 +25,6 @@ ENTRY_POINTS = {"console_scripts": ["backlog = backlog.cli:main"]}
 if __name__ == "__main__":
     setuptools.setup(
         name="backlog",
-        use_scm_version=True,
         description="A Glorified TODO list",
         long_description=read("README.rst"),
         long_description_content_type="text/x-rst",
@@ -41,7 +40,7 @@ if __name__ == "__main__":
         package_dir={"": "src"},
         packages=setuptools.find_packages("src"),
         include_package_data=True,
-        setup_requires=["setuptools_scm >= 3.5"],
+        setup_requires=["setuptools_scm[toml] >= 6.0"],
         python_requires=">= 3.7",
         install_requires=[
             "click >= 7.1",
