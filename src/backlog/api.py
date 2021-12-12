@@ -54,7 +54,7 @@ class Backlog:
     @classmethod
     def load(cls, path: str) -> Backlog:
         """Load a Backlog from a file."""
-        with open(path, "r") as backlog_f:
+        with open(path, "r", encoding="utf-8") as backlog_f:
             entry_dicts = json.load(backlog_f)
         return cls(
             entries=[Backlog.Entry(**entry_dict) for entry_dict in entry_dicts],
@@ -80,14 +80,13 @@ class Backlog:
     def save(self, path: str) -> None:
         """Save a Backlog to a file."""
         os.makedirs(os.path.dirname(path), exist_ok=True)
-        with open(path, "w") as backlog_f:
-            backlog_f.write(
-                json.dumps(
-                    [dataclasses.asdict(entry) for entry in self.entries],
-                    sort_keys=True,
-                    indent=2,
-                    separators=(",", ": "),
-                ),
+        with open(path, "w", encoding="utf-8") as backlog_f:
+            json.dump(
+                [dataclasses.asdict(entry) for entry in self.entries],
+                backlog_f,
+                sort_keys=True,
+                indent=2,
+                separators=(",", ": "),
             )
 
     def search(

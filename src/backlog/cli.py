@@ -24,7 +24,9 @@ class PatternParamType(click.ParamType):
         try:
             return re.compile(value)
         except re.error as exc:
-            self.fail(str(exc), param, ctx)
+            # return does nothing here but make pylint happy:
+            # https://github.com/PyCQA/pylint/issues/3299
+            return self.fail(str(exc), param, ctx)
 
 
 PATTERN = PatternParamType()

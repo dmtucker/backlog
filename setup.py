@@ -9,7 +9,7 @@ https://github.com/pypa/sampleproject
 import codecs
 import os.path
 
-import setuptools  # type: ignore
+import setuptools
 
 
 def read(*parts: str) -> str:
