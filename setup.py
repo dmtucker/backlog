@@ -44,7 +44,6 @@ if __name__ == "__main__":
         python_requires=">= 3.8",
         install_requires=[
             "click >= 7.1",
-            "setuptools >= 46.1",
         ],
         entry_points=ENTRY_POINTS,
         keywords="notes backlog todo list",
