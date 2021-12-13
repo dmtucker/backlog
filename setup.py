@@ -41,7 +41,7 @@ if __name__ == "__main__":
         packages=setuptools.find_packages("src"),
         include_package_data=True,
         setup_requires=["setuptools_scm[toml] >= 6.0"],
-        python_requires=">= 3.7",
+        python_requires=">= 3.8",
         install_requires=[
             "click >= 7.1",
             "setuptools >= 46.1",
@@ -52,7 +52,6 @@ if __name__ == "__main__":
             "License :: OSI Approved :: "
             "GNU Lesser General Public License v2 or later (LGPLv2+)",
             "Intended Audience :: End Users/Desktop",
-            "Programming Language :: Python :: 3.7",
             "Programming Language :: Python :: 3.8",
             "Programming Language :: Python :: 3.9",
             "Programming Language :: Python :: 3.10",
